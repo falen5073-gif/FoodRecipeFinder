@@ -1,0 +1,207 @@
+<!-- ============================================================================== -->
+<!-- TEMPLATE HALAMAN UTAMA (templates/index.html)                                  -->
+<!-- ============================================================================== -->
+<!-- Berkas ini menampilkan antarmuka beranda yang memuat Hero Section, kotak       -->
+<!-- pencarian, pilihan kategori cepat, daftar resep unggulan, dan kartu aksi acak. -->
+<!-- ============================================================================== -->
+
+<!-- Mewarisi kerangka layout utama dari berkas base.html -->
+{% extends "base.html" %}
+
+<!-- Mengisi blok judul halaman khusus untuk tab browser beranda -->
+{% block title %}Foodie | Temukan Resep Favoritmu{% endblock %}
+
+<!-- Memulai blok konten utama untuk halaman beranda -->
+{% block content %}
+
+<!-- ========================================================================== -->
+<!-- 1. HERO SECTION: Bagian sambutan utama dengan kolom teks & visual interaktif -->
+<!-- ========================================================================== -->
+<section class="hero-section">
+    <div class="container hero-grid">
+        <!-- Kolom Kiri: Teks pengantar, tagline utama, dan kotak pencarian resep -->
+        <div class="hero-copy">
+            <!-- Label kecil pembuka (eyebrow) dengan titik indikator aksen -->
+            <span class="eyebrow"><span class="eyebrow-dot"></span> DAPUR INSPIRASI HARI INI</span>
+            
+            <!-- Judul utama (heading) dengan sentuhan tipografi Playfair Display -->
+            <h1>Good food.<br><span>Good mood.</span></h1>
+            
+            <!-- Deskripsi ringkas tujuan platform untuk pengguna -->
+            <p class="hero-description">
+                Temukan resep baru, eksplorasi rasa, dan buat momen makanmu jadi lebih istimewa.
+            </p>
+
+            <!-- Formulir pencarian resep yang mengirim parameter 'q' dengan metode GET ke rute '/search' -->
+            <form action="{{ url_for('search') }}" method="GET" class="search-box">
+                <!-- Ikon pencarian berupa simbol visual -->
+                <span class="search-icon">⌕</span>
+                <!-- Bidang input teks pencarian kata kunci resep -->
+                <input type="search" name="q" placeholder="Cari resep favoritmu..." required>
+                <!-- Tombol submit pengirim pencarian -->
+                <button type="submit" class="btn-orange">Cari resep</button>
+            </form>
+
+            <!-- Catatan kecil di bawah kolom pencarian -->
+            <div class="hero-note">
+                <span>✦</span> Banyak inspirasi, satu tempat.
+            </div>
+        </div>
+
+        <!-- Kolom Kanan: Visual gambar hidangan utama yang dihiasi kartu-kartu melayang -->
+        <div class="hero-visual">
+            <!-- Wadah pembungkus gambar hero dengan sudut membulat modern -->
+            <div class="hero-image-wrap">
+                <img src="https://images.unsplash.com/photo-1547592180-85f173990554?auto=format&fit=crop&w=900&q=85"
+                     alt="Hidangan sehat penuh warna">
+            </div>
+            
+            <!-- Kartu melayang atas: Informasi ide segar setiap hari -->
+            <div class="floating-card floating-top">
+                <span class="floating-icon">🍊</span>
+                <div><strong>Fresh ideas</strong><small>Setiap hari</small></div>
+            </div>
+            
+            <!-- Kartu melayang bawah: Tombol jalan pintas interaktif untuk mendapatkan resep acak -->
+            <a href="{{ url_for('random_recipe') }}" class="floating-card floating-bottom">
+                <span class="floating-icon">🎲</span>
+                <div><strong>Surprise me!</strong><small>Coba resep acak ↗</small></div>
+            </a>
+            
+            <!-- Elemen dekoratif aksen bintang oranye di sekitar gambar -->
+            <span class="hero-decoration decoration-one">✳</span>
+            <span class="hero-decoration decoration-two">✦</span>
+        </div>
+    </div>
+</section>
+
+<!-- ========================================================================== -->
+<!-- 2. CATEGORIES SECTION: Bagian daftar kategori hidangan cepat               -->
+<!-- ========================================================================== -->
+<section class="section-block categories-section">
+    <div class="container">
+        <!-- Judul bagian kategori -->
+        <div class="section-heading">
+            <div>
+                <span class="eyebrow">JELAJAHI RASA</span>
+                <h2>What are you craving?</h2>
+            </div>
+            <p>Pilih kategori, temukan favorit baru.</p>
+        </div>
+
+        <!-- Grid penampung kartu kategori yang responsif -->
+        <div class="category-grid">
+            {# Perulangan untuk setiap nama kategori yang dikirim dari backend Flask #}
+            {% for category in categories %}
+            <!-- Kartu tautan kategori yang menyaring resep berdasarkan kategori terpilih -->
+            <a class="category-card" href="{{ url_for('search', category=category) }}">
+                <!-- Pemilihan emoji yang relevan secara dinamis sesuai nama kategori -->
+                <span class="category-emoji">
+                    {% if category == 'Beef' %}🥩
+                    {% elif category == 'Chicken' %}🍗
+                    {% elif category == 'Seafood' %}🍤
+                    {% elif category == 'Vegetarian' %}🥑
+                    {% elif category == 'Dessert' %}🍰
+                    {% else %}🍝{% endif %}
+                </span>
+                <!-- Label nama kategori masakan -->
+                <span class="category-name">{{ category }}</span>
+                <!-- Ikon panah penunjuk -->
+                <span class="category-arrow">↗</span>
+            </a>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<!-- ========================================================================== -->
+<!-- 3. FEATURED SECTION: Resep-resep pilihan yang ditampilkan di halaman depan  -->
+<!-- ========================================================================== -->
+<section class="section-block featured-section">
+    <div class="container">
+        <!-- Header bagian resep unggulan dan tombol tautan resep acak -->
+        <div class="section-heading">
+            <div>
+                <span class="eyebrow">DIPILIH UNTUKMU</span>
+                <h2>Recipes to fall for<span class="brand-dot">.</span></h2>
+            </div>
+            <!-- Tautan cepat ke fitur resep acak -->
+            <a href="{{ url_for('random_recipe') }}" class="text-link">Resep acak ↗</a>
+        </div>
+
+        {# Memeriksa apakah data resep unggulan tersedia #}
+        {% if featured %}
+        <!-- Grid penampung kartu-kartu resep -->
+        <div class="recipe-grid">
+            {# Melakukan perulangan untuk menampilkan setiap kartu resep #}
+            {% for meal in featured %}
+            <article class="recipe-card">
+                <!-- Tautan gambar resep yang mengarah ke halaman detail -->
+                <a class="recipe-image" href="{{ url_for('recipe_detail', meal_id=meal.idMeal) }}">
+                    <!-- Gambar thumbnail masakan dengan fitur lazy-loading -->
+                    <img src="{{ meal.strMealThumb }}" alt="{{ meal.strMeal }}" loading="lazy">
+                    <!-- Lencana kategori resep di atas gambar -->
+                    <span class="image-badge">{{ meal.strCategory or 'Recipe idea' }}</span>
+                </a>
+                
+                <div class="recipe-info">
+                    <!-- Keterangan asal masakan dan lencana frekuensi buka (jika pernah dibuka) -->
+                    <div class="recipe-meta">
+                        {{ meal.strArea or 'International' }} cuisine
+                        {% if meal.idMeal|string in favorite_view_counts %}
+                        <span class="view-count-badge">🔥 Dibuka {{ favorite_view_counts[meal.idMeal|string] }}x</span>
+                        {% endif %}
+                    </div>
+                    
+                    <!-- Judul nama masakan yang dapat diklik -->
+                    <h3><a href="{{ url_for('recipe_detail', meal_id=meal.idMeal) }}">{{ meal.strMeal }}</a></h3>
+                    
+                    <!-- Bagian bawah kartu: Tautan detail dan tombol simpan favorit -->
+                    <div class="recipe-card-bottom">
+                        <!-- Tautan langsung menuju halaman instruksi resep lengkap -->
+                        <a class="view-recipe" href="{{ url_for('recipe_detail', meal_id=meal.idMeal) }}">Lihat resep <span>↗</span></a>
+                        
+                        <!-- Form tombol toggle Simpan Menu (Bookmark Resep ke Menu Tersimpan) -->
+                        <form action="{{ url_for('toggle_save_menu', meal_id=meal.idMeal) }}" method="POST">
+                            <button class="bookmark-button {{ 'is-saved' if meal.idMeal|string in saved_menu_ids else '' }}"
+                                    type="submit"
+                                    aria-label="Simpan {{ meal.strMeal }} ke Menu Tersimpan"
+                                    title="{{ 'Hapus dari Menu Tersimpan' if meal.idMeal|string in saved_menu_ids else 'Simpan Menu Ini' }}">
+                                <!-- Mengubah ikon pita bookmark jika menu sudah disimpan -->
+                                {{ '🔖' if meal.idMeal|string in saved_menu_ids else '📑' }}
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </article>
+            {% endfor %}
+        </div>
+        {# Tampilan fallback jika koleksi resep tidak ada / gagal dimuat #}
+        {% else %}
+        <div class="empty-state">
+            <span>🍲</span>
+            <h3>Resep belum bisa dimuat</h3>
+            <p>Periksa koneksi internet, lalu muat ulang halaman.</p>
+            <a href="{{ url_for('index') }}" class="btn-orange">Coba lagi</a>
+        </div>
+        {% endif %}
+    </div>
+</section>
+
+<!-- ========================================================================== -->
+<!-- 4. CALL TO ACTION (CTA) SECTION: Ajakan interaktif mencoba resep kejutan   -->
+<!-- ========================================================================== -->
+<section class="cta-section">
+    <div class="container cta-inner">
+        <div>
+            <span class="eyebrow">MASAK SESUATU YANG BARU</span>
+            <h2>Let the kitchen surprise you.</h2>
+            <p>Belum tahu mau masak apa? Biar kami pilihkan.</p>
+        </div>
+        <!-- Tombol pemanggil rute resep acak -->
+        <a href="{{ url_for('random_recipe') }}" class="btn-light">Temukan resep ↗</a>
+    </div>
+</section>
+
+<!-- Menutup blok konten utama -->
+{% endblock %}

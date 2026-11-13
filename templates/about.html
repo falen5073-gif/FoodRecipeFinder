@@ -1,0 +1,64 @@
+<!-- ============================================================================== -->
+<!-- TEMPLATE HALAMAN TENTANG KAMI (templates/about.html)                           -->
+<!-- ============================================================================== -->
+<!-- Berkas ini menyajikan informasi latar belakang, tujuan aplikasi Foodie,        -->
+<!-- serta ringkasan teknologi dan arsitektur perangkat lunak yang digunakan.       -->
+<!-- ============================================================================== -->
+
+<!-- Mewarisi kerangka layout utama dari berkas base.html -->
+{% extends "base.html" %}
+
+<!-- Mengatur judul tab peramban untuk halaman Tentang Kami -->
+{% block title %}Tentang Foodie{% endblock %}
+
+<!-- Memulai blok konten utama untuk halaman Tentang Kami -->
+{% block content %}
+
+<!-- ========================================================================== -->
+<!-- 1. PAGE HEADER: Judul pembuka halaman Tentang Kami                         -->
+<!-- ========================================================================== -->
+<section class="page-header">
+    <div class="container">
+        <!-- Label penanda atas (eyebrow) -->
+        <span class="eyebrow">CERITA DI BALIK FOODIE</span>
+        <!-- Judul utama halaman dengan titik aksen oranye -->
+        <h1>Cooking starts with <span class="brand-dot">curiosity.</span></h1>
+        <!-- Subjudul pengantar -->
+        <p>Tempat untuk mencari inspirasi dan mengeksplorasi dunia kuliner.</p>
+    </div>
+</section>
+
+<!-- ========================================================================== -->
+<!-- 2. SECTION PROFIL & TEKNOLOGI: Ilustrasi visual dan penjelasan aplikasi    -->
+<!-- ========================================================================== -->
+<section class="section-block">
+    <div class="container about-grid">
+        <!-- Kolom Kiri: Ilustrasi visual kartu dengan ikon buah dan aksen bintang -->
+        <div class="about-illustration">🍊<span>✳</span></div>
+        
+        <!-- Kolom Kanan: Teks deskripsi aplikasi, fitur, dan teknologi pembangun -->
+        <div class="about-copy">
+            <span class="eyebrow">APA ITU FOODIE?</span>
+            <h2>Lebih mudah menemukan ide masakan.</h2>
+            
+            <!-- Paragraf 1: Penjelasan fungsi dan fitur utama aplikasi bagi pengguna -->
+            <p>
+                Foodie adalah aplikasi pencarian resep makanan berbasis web.
+                Pengguna dapat mencari hidangan, melihat bahan dan cara memasak,
+                serta menyimpan resep favorit untuk dicoba kembali.
+            </p>
+            
+            <!-- Paragraf 2: Penjelasan teknologi stack yang digunakan dalam pembangunan aplikasi -->
+            <p>
+                Proyek ini dibuat menggunakan Python, Flask, HTML, CSS,
+                JavaScript, dan TheMealDB API sebagai sumber data resep.
+            </p>
+            
+            <!-- Tombol navigasi kembali ke halaman utama untuk mulai mencari resep -->
+            <a href="{{ url_for('index') }}" class="btn-orange">Mulai menjelajah ↗</a>
+        </div>
+    </div>
+</section>
+
+<!-- Menutup blok konten Tentang Kami -->
+{% endblock %}

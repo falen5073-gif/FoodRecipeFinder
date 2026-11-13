@@ -1,0 +1,189 @@
+<!-- ============================================================================== -->
+<!-- TEMPLATE HALAMAN MENU YANG DISIMPAN (templates/saved_menus.html)               -->
+<!-- ============================================================================== -->
+<!-- Berkas ini menyajikan antarmuka fitur Simpan Menu (Bookmark Resep),            -->
+<!-- menampilkan resep-resep masakan yang sengaja disimpan oleh pengguna,           -->
+<!-- lengkap dengan tanggal penyimpanan, catatan pribadi, dan pencarian/filter.     -->
+<!-- ============================================================================== -->
+
+<!-- Mewarisi kerangka induk dari base.html -->
+{% extends "base.html" %}
+
+<!-- Mengatur judul tab peramban untuk halaman menu yang disimpan -->
+{% block title %}Menu yang Disimpan | Foodie{% endblock %}
+
+<!-- Memulai blok konten utama untuk halaman menu tersimpan -->
+{% block content %}
+
+<!-- ========================================================================== -->
+<!-- 1. PAGE HEADER: Judul halaman dan keterangan koleksi menu tersimpan        -->
+<!-- ========================================================================== -->
+<section class="page-header">
+    <div class="container">
+        <!-- Label penanda atas (eyebrow) -->
+        <span class="eyebrow">KOLEKSI RESEP PILIHANMU</span>
+        
+        <!-- Judul halaman dengan ikon bookmark pita -->
+        <h1>Menu yang Disimpan <span class="brand-dot">🔖</span></h1>
+        
+        <!-- Keterangan fungsi fitur simpan menu -->
+        <p>Kumpulan resep masakan yang kamu simpan untuk dimasak dan dinikmati nanti.</p>
+    </div>
+</section>
+
+<!-- ========================================================================== -->
+<!-- 2. FILTER & PENCARIAN MENU TERSIMPAN: Filter pencarian & kategori resep    -->
+<!-- ========================================================================== -->
+<section class="section-block py-4">
+    <div class="container">
+        <!-- Formulir filter pencarian menu tersimpan -->
+        <form action="{{ url_for('saved_menus') }}" method="GET" class="places-filter-bar">
+            <!-- Kolom input pencarian teks -->
+            <div class="filter-input-wrap">
+                <span class="search-icon">⌕</span>
+                <input type="search" name="q" value="{{ query }}" placeholder="Cari nama menu atau catatan...">
+            </div>
+
+            <!-- Dropdown pemilihan kategori resep -->
+            {% if categories %}
+            <div class="filter-select-wrap">
+                <select name="category" onchange="this.form.submit()">
+                    <option value="">Semua Kategori</option>
+                    {% for cat in categories %}
+                    <option value="{{ cat }}" {{ 'selected' if selected_category == cat else '' }}>
+                        {{ cat }}
+                    </option>
+                    {% endfor %}
+                </select>
+            </div>
+            {% endif %}
+
+            <!-- Tombol submit filter -->
+            <button type="submit" class="btn-orange filter-btn">Saring</button>
+
+            <!-- Tautan reset filter jika filter pencarian aktif -->
+            {% if query or selected_category %}
+            <a href="{{ url_for('saved_menus') }}" class="btn-reset-filter">Reset Filter ✕</a>
+            {% endif %}
+        </form>
+    </div>
+</section>
+
+<!-- ========================================================================== -->
+<!-- 3. GRID MENU YANG DISIMPAN: Kartu-kartu resep yang dibookmark pengguna     -->
+<!-- ========================================================================== -->
+<section class="section-block pt-0">
+    <div class="container">
+        {# Memeriksa apakah terdapat menu yang tersimpan di dalam daftar #}
+        {% if saved_menus %}
+        <!-- Label jumlah total menu yang ditemukan -->
+        <div class="results-meta-bar mb-4">
+            <span>Menampilkan <strong>{{ saved_menus|length }}</strong> menu tersimpan</span>
+        </div>
+
+        <!-- Grid penampung kartu resep masakan tersimpan -->
+        <div class="recipe-grid">
+            {# Melakukan iterasi pada setiap resep di daftar saved_menus #}
+            {% for meal in saved_menus %}
+            <article class="recipe-card saved-menu-card">
+                <!-- Tautan thumbnail gambar resep menuju halaman detail -->
+                <a class="recipe-image" href="{{ url_for('recipe_detail', meal_id=meal.idMeal) }}">
+                    <!-- Foto masakan dengan lazy loading -->
+                    <img src="{{ meal.strMealThumb }}" alt="{{ meal.strMeal }}" loading="lazy">
+                    <!-- Lencana kategori resep di sudut kiri atas -->
+                    <span class="image-badge">{{ meal.strCategory or 'Menu Pilihan' }}</span>
+                    <!-- Lencana status tersimpan di sudut kanan atas -->
+                    <span class="rank-badge saved-status-badge">🔖 Tersimpan</span>
+                </a>
+
+                <!-- Informasi detail resep yang disimpan -->
+                <div class="recipe-info">
+                    <!-- Keterangan asal daerah kuliner dan waktu disimpan -->
+                    <div class="recipe-meta">
+                        <span>{{ meal.strArea or 'Indonesia' }} cuisine</span>
+                        {% if meal.saved_at %}
+                        <small class="d-block text-muted mt-1">🗓 Disimpan: {{ meal.saved_at }}</small>
+                        {% endif %}
+                    </div>
+
+                    <!-- Judul nama masakan yang dapat diklik -->
+                    <h3><a href="{{ url_for('recipe_detail', meal_id=meal.idMeal) }}">{{ meal.strMeal }}</a></h3>
+
+                    <!-- Catatan pribadi pengguna jika sudah pernah ditambahkan -->
+                    {% if meal.notes %}
+                    <div class="place-notes-box my-2">
+                        <span>📝</span>
+                        <em>"{{ meal.notes }}"</em>
+                    </div>
+                    {% endif %}
+
+                    <!-- Bagian bawah kartu: Tautan detail resep dan tombol aksi simpanan -->
+                    <div class="recipe-card-bottom mt-3">
+                        <!-- Tautan langsung menuju halaman instruksi resep lengkap -->
+                        <a class="view-recipe" href="{{ url_for('recipe_detail', meal_id=meal.idMeal) }}">
+                            Lihat resep ↗
+                        </a>
+
+                        <!-- Grup tombol aksi: Tambah/Edit Catatan & Hapus dari Simpanan -->
+                        <div class="d-flex align-items-center gap-2">
+                            <!-- Tombol pemicu modal edit catatan resep -->
+                            <button type="button" class="btn-note-action" data-bs-toggle="modal" data-bs-target="#noteModal{{ meal.idMeal }}" title="Tambah / Edit Catatan">
+                                ✏ Catatan
+                            </button>
+
+                            <!-- Form tombol hapus menu dari daftar Menu yang Disimpan -->
+                            <form action="{{ url_for('delete_saved_menu', meal_id=meal.idMeal) }}" method="POST"
+                                  onsubmit="return confirm('Hapus menu ini dari daftar simpanan?');">
+                                <button type="submit" class="btn-delete-place" title="Hapus dari Menu yang Disimpan">
+                                    🗑 Hapus
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </article>
+
+            <!-- Modal Formulir Tambah/Edit Catatan untuk Resep ini -->
+            <div class="modal fade" id="noteModal{{ meal.idMeal }}" tabindex="-1" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content custom-modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">Catatan: {{ meal.strMeal }}</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Tutup"></button>
+                        </div>
+                        <form action="{{ url_for('update_menu_note', meal_id=meal.idMeal) }}" method="POST">
+                            <div class="modal-body">
+                                <label class="form-label">Tulis catatan pribadi untuk resep ini:</label>
+                                <textarea name="notes" class="form-control" rows="3" placeholder="Contoh: Sangat cocok untuk bekal makan siang, tambahkan cabai rawit ekstra.">{{ meal.notes or '' }}</textarea>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn-reset-filter" data-bs-dismiss="modal">Batal</button>
+                                <button type="submit" class="btn-orange">Simpan Catatan</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+
+        {# Tampilan alternatif (empty state) jika pengguna belum menyimpan menu apapun #}
+        {% else %}
+        <div class="empty-state">
+            <!-- Ikon pita bookmark kosong -->
+            <span>🔖</span>
+            <h2>Belum ada menu yang disimpan</h2>
+            {% if query or selected_category %}
+            <p>Tidak ada menu tersimpan yang sesuai dengan kriteria pencarianmu.</p>
+            <a href="{{ url_for('saved_menus') }}" class="btn-orange">Lihat Semua Menu Tersimpan</a>
+            {% else %}
+            <p>Jelajahi resep-resep lezat, lalu tekan tombol <strong>"Simpan Menu"</strong> untuk mengumpulkannya di sini!</p>
+            <a href="{{ url_for('index') }}" class="btn-orange">Jelajahi Resep Sekarang</a>
+            {% endif %}
+        </div>
+        {% endif %}
+    </div>
+</section>
+
+<!-- Menutup blok konten menu yang disimpan -->
+{% endblock %}

@@ -1,0 +1,261 @@
+
+[
+  {
+    "idMeal": "ID001",
+    "strMeal": "Nasi Goreng Spesial",
+    "strMealThumb": "https://images.pexels.com/photos/37171028/pexels-photo-37171028.jpeg",
+    "strCategory": "Makanan Utama",
+    "strArea": "Indonesia",
+    "ingredients": [
+      {"name": "Nasi putih", "measure": "1 piring"},
+      {"name": "Telur ayam", "measure": "1 butir"},
+      {"name": "Bawang putih", "measure": "2 siung"},
+      {"name": "Kecap manis", "measure": "1 sdm"},
+      {"name": "Garam", "measure": "Secukupnya"},
+      {"name": "Minyak goreng", "measure": "1 sdm"}
+    ],
+    "instructions_list": [
+      "Haluskan bawang putih, lalu tumis hingga harum.",
+      "Masukkan telur dan orak-arik hingga matang.",
+      "Tambahkan nasi putih, kecap manis, dan garam.",
+      "Aduk hingga semua bahan tercampur rata dan nasi panas.",
+      "Sajikan nasi goreng selagi hangat."
+    ]
+  },
+  {
+    "idMeal": "ID002",
+    "strMeal": "Soto Ayam",
+    "strMealThumb": "https://tse1.mm.bing.net/th/id/OIP.74nJ6tCMcH0NHhvl22AwUQHaHM?r=0&pid=Api&h=220&P=0",
+    "strCategory": "Sup",
+    "strArea": "Indonesia",
+    "ingredients": [
+      {"name": "Daging ayam", "measure": "300 gram"},
+      {"name": "Bawang putih", "measure": "3 siung"},
+      {"name": "Bawang merah", "measure": "5 siung"},
+      {"name": "Kunyit", "measure": "2 cm"},
+      {"name": "Serai", "measure": "1 batang"},
+      {"name": "Air", "measure": "1 liter"},
+      {"name": "Garam", "measure": "Secukupnya"}
+    ],
+    "instructions_list": [
+      "Rebus ayam hingga matang, lalu sisihkan.",
+      "Haluskan bawang merah, bawang putih, dan kunyit.",
+      "Tumis bumbu halus bersama serai hingga harum.",
+      "Masukkan bumbu ke dalam air rebusan ayam.",
+      "Suwir ayam dan masukkan kembali ke dalam kuah.",
+      "Tambahkan garam, lalu masak hingga bumbu meresap."
+    ]
+  },
+  {
+    "idMeal": "ID003",
+    "strMeal": "Rendang Daging",
+    "strMealThumb": "https://tse4.mm.bing.net/th/id/OIP.4pY3tA5po23Y0hOAA_PsDgHaHW?r=0&pid=Api&h=220&P=0",
+    "strCategory": "Makanan Utama",
+    "strArea": "Sumatera Barat",
+    "ingredients": [
+      {"name": "Daging sapi", "measure": "500 gram"},
+      {"name": "Santan", "measure": "500 ml"},
+      {"name": "Bawang merah", "measure": "6 siung"},
+      {"name": "Bawang putih", "measure": "4 siung"},
+      {"name": "Cabai merah", "measure": "Secukupnya"},
+      {"name": "Serai", "measure": "1 batang"},
+      {"name": "Garam", "measure": "Secukupnya"}
+    ],
+    "instructions_list": [
+      "Potong daging sapi sesuai selera.",
+      "Haluskan bawang merah, bawang putih, dan cabai.",
+      "Masak santan bersama bumbu halus dan serai.",
+      "Masukkan daging sapi, lalu aduk perlahan.",
+      "Masak dengan api kecil hingga daging empuk dan kuah mengental.",
+      "Aduk sesekali agar rendang tidak gosong."
+    ]
+  },
+  {
+    "idMeal": "ID004",
+    "strMeal": "Pisang Goreng",
+    "strMealThumb": "https://tse3.mm.bing.net/th/id/OIP.Rg21RZyQbD4PZSFYzEMRMAHaE8?r=0&pid=Api&h=220&P=0",
+    "strCategory": "Camilan",
+    "strArea": "Indonesia",
+    "ingredients": [
+      {"name": "Pisang matang", "measure": "4 buah"},
+      {"name": "Tepung terigu", "measure": "100 gram"},
+      {"name": "Gula pasir", "measure": "1 sdm"},
+      {"name": "Air", "measure": "Secukupnya"},
+      {"name": "Minyak goreng", "measure": "Secukupnya"}
+    ],
+    "instructions_list": [
+      "Campurkan tepung terigu, gula, dan air hingga menjadi adonan.",
+      "Kupas pisang, lalu potong sesuai selera.",
+      "Celupkan pisang ke dalam adonan tepung.",
+      "Panaskan minyak dengan api sedang.",
+      "Goreng pisang hingga berwarna kuning keemasan.",
+      "Angkat dan tiriskan sebelum disajikan."
+    ]
+  },
+  {
+    "idMeal": "ID005",
+    "strMeal": "Telur Balado",
+    "strMealThumb": "https://tse3.mm.bing.net/th/id/OIP.2Vw3SUZ2R0th5JUd07fjrAHaHa?r=0&pid=Api&h=220&P=0",
+    "strCategory": "Lauk",
+    "strArea": "Sumatera Barat",
+    "ingredients": [
+      {"name": "Telur ayam", "measure": "4 butir"},
+      {"name": "Cabai merah", "measure": "6 buah"},
+      {"name": "Bawang merah", "measure": "5 siung"},
+      {"name": "Bawang putih", "measure": "2 siung"},
+      {"name": "Tomat", "measure": "1 buah"},
+      {"name": "Garam", "measure": "Secukupnya"},
+      {"name": "Minyak goreng", "measure": "Secukupnya"}
+    ],
+    "instructions_list": [
+      "Rebus telur hingga matang, lalu kupas.",
+      "Haluskan cabai, bawang merah, bawang putih, dan tomat.",
+      "Tumis bumbu hingga harum dan matang.",
+      "Tambahkan garam sesuai selera.",
+      "Masukkan telur rebus dan aduk hingga terbalut bumbu.",
+      "Masak beberapa menit, lalu sajikan."
+    ]
+  },
+  {
+    "idMeal": "ID006",
+    "strMeal": "Es Teh Manis",
+    "strMealThumb": "https://tse4.mm.bing.net/th/id/OIP.D9Rt7tTyMN7LqbYrhzsrWQHaFj?r=0&pid=Api&h=220&P=0",
+    "strCategory": "Minuman",
+    "strArea": "Indonesia",
+    "ingredients": [
+      {"name": "Teh celup", "measure": "1 kantong"},
+      {"name": "Air panas", "measure": "200 ml"},
+      {"name": "Gula pasir", "measure": "2 sdt"},
+      {"name": "Es batu", "measure": "Secukupnya"}
+    ],
+    "instructions_list": [
+      "Seduh teh dengan air panas selama beberapa menit.",
+      "Tambahkan gula pasir, lalu aduk hingga larut.",
+      "Biarkan teh agak dingin.",
+      "Masukkan es batu ke dalam gelas.",
+      "Tuangkan teh dan sajikan."
+    ]
+  }
+  
+,
+  {
+    "idMeal": "ID007",
+    "strMeal": "Ayam Kecap",
+    "strMealThumb": "https://tse4.mm.bing.net/th/id/OIP.vcMV4wz8wnu-yAd6b4QSxAHaHa?r=0&pid=Api&h=220&P=0",
+    "strCategory": "Lauk",
+    "strArea": "Indonesia",
+    "ingredients": [
+      {"name": "Daging ayam", "measure": "500 gram"},
+      {"name": "Kecap manis", "measure": "4 sdm"},
+      {"name": "Bawang merah", "measure": "5 siung"},
+      {"name": "Bawang putih", "measure": "3 siung"},
+      {"name": "Jahe", "measure": "2 cm"},
+      {"name": "Air", "measure": "200 ml"},
+      {"name": "Garam", "measure": "Secukupnya"}
+    ],
+    "instructions_list": [
+      "Cuci ayam hingga bersih dan tiriskan.",
+      "Iris bawang merah, bawang putih, dan jahe.",
+      "Tumis bumbu hingga harum.",
+      "Masukkan ayam dan aduk hingga berubah warna.",
+      "Tambahkan kecap manis, air, dan garam.",
+      "Masak hingga ayam matang dan bumbu meresap."
+    ]
+  },
+  {
+    "idMeal": "ID008",
+    "strMeal": "Gado-Gado",
+    "strMealThumb": "https://tse4.mm.bing.net/th/id/OIP.z8EioKrOkkVoSAdvoAC5TQHaHG?r=0&pid=Api&h=220&P=0",
+    "strCategory": "Makanan Utama",
+    "strArea": "Indonesia",
+    "ingredients": [
+      {"name": "Kangkung", "measure": "1 ikat"},
+      {"name": "Tauge", "measure": "100 gram"},
+      {"name": "Kentang", "measure": "2 buah"},
+      {"name": "Tahu", "measure": "2 potong"},
+      {"name": "Tempe", "measure": "2 potong"},
+      {"name": "Bumbu kacang", "measure": "Secukupnya"},
+      {"name": "Air jeruk limau", "measure": "1 sdm"}
+    ],
+    "instructions_list": [
+      "Rebus kangkung dan tauge hingga matang.",
+      "Rebus kentang hingga empuk, lalu potong-potong.",
+      "Goreng tahu dan tempe hingga matang.",
+      "Siapkan bumbu kacang dan tambahkan sedikit air jika terlalu kental.",
+      "Susun sayuran, kentang, tahu, dan tempe di piring.",
+      "Siram dengan bumbu kacang dan tambahkan air jeruk limau."
+    ]
+  },
+  {
+    "idMeal": "ID009",
+    "strMeal": "Bakso Kuah",
+    "strMealThumb": "https://tse2.mm.bing.net/th/id/OIP.wgivn9b11K1TLi9LHtCAvgHaHa?r=0&pid=Api&h=220&P=0",
+    "strCategory": "Sup",
+    "strArea": "Indonesia",
+    "ingredients": [
+      {"name": "Bakso sapi", "measure": "10 butir"},
+      {"name": "Bawang putih", "measure": "3 siung"},
+      {"name": "Daun bawang", "measure": "2 batang"},
+      {"name": "Air atau kaldu", "measure": "1 liter"},
+      {"name": "Garam", "measure": "Secukupnya"},
+      {"name": "Merica", "measure": "Secukupnya"},
+      {"name": "Mi atau bihun", "measure": "Secukupnya"}
+    ],
+    "instructions_list": [
+      "Haluskan bawang putih dan tumis hingga harum.",
+      "Didihkan air atau kaldu dalam panci.",
+      "Masukkan bawang putih, garam, dan merica.",
+      "Tambahkan bakso dan masak hingga panas merata.",
+      "Masukkan daun bawang menjelang selesai.",
+      "Sajikan bersama mi atau bihun sesuai selera."
+    ]
+  },
+  {
+    "idMeal": "ID010",
+    "strMeal": "Sayur Asem",
+    "strMealThumb": "https://tse4.mm.bing.net/th/id/OIP.nnxfnVx7P4Gxh4BJZ5FRIAHaGJ?r=0&pid=Api&h=220&P=0",
+    "strCategory": "Sayuran",
+    "strArea": "Indonesia",
+    "ingredients": [
+      {"name": "Jagung manis", "measure": "1 buah"},
+      {"name": "Labu siam", "measure": "1 buah"},
+      {"name": "Kacang panjang", "measure": "5 batang"},
+      {"name": "Kacang tanah", "measure": "50 gram"},
+      {"name": "Asam jawa", "measure": "Secukupnya"},
+      {"name": "Bawang merah", "measure": "4 siung"},
+      {"name": "Garam dan gula", "measure": "Secukupnya"}
+    ],
+    "instructions_list": [
+      "Potong jagung, labu siam, dan kacang panjang.",
+      "Didihkan air dalam panci.",
+      "Masukkan jagung dan kacang tanah terlebih dahulu.",
+      "Tambahkan labu siam dan kacang panjang.",
+      "Masukkan bumbu, asam jawa, garam, dan gula.",
+      "Masak hingga sayuran matang dan kuah terasa segar."
+    ]
+  },
+  {
+    "idMeal": "ID011",
+    "strMeal": "Martabak Telur",
+    "strMealThumb": "https://tse2.mm.bing.net/th/id/OIP.Vdkiae2JjGRjdq5ZaHDMbwHaE7?r=0&pid=Api&h=220&P=0",
+    "strCategory": "Camilan",
+    "strArea": "Indonesia",
+    "ingredients": [
+      {"name": "Kulit lumpia", "measure": "4 lembar"},
+      {"name": "Telur ayam", "measure": "3 butir"},
+      {"name": "Daun bawang", "measure": "2 batang"},
+      {"name": "Daging cincang matang", "measure": "100 gram"},
+      {"name": "Garam", "measure": "Secukupnya"},
+      {"name": "Minyak goreng", "measure": "Secukupnya"}
+    ],
+    "instructions_list": [
+      "Iris daun bawang hingga halus.",
+      "Kocok telur bersama daun bawang, daging, dan garam.",
+      "Letakkan kulit lumpia di atas permukaan yang bersih.",
+      "Tuangkan sebagian adonan telur ke tengah kulit.",
+      "Lipat kulit lumpia hingga isian tertutup.",
+      "Goreng dengan api sedang hingga kedua sisi matang dan kecokelatan."
+    ]
+  }
+
+]

@@ -1,0 +1,106 @@
+<!-- ============================================================================== -->
+<!-- TEMPLATE HALAMAN RESEP FAVORIT (templates/favorites.html)                      -->
+<!-- ============================================================================== -->
+<!-- Berkas ini menampilkan daftar resep makanan favorit yang ditentukan dan        -->
+<!-- diurutkan secara dinamis berdasarkan frekuensi seberapa sering pengguna        -->
+<!-- membuka menu detail hidangan tersebut (view_count terbanyak ke terkecil).       -->
+<!-- ============================================================================== -->
+
+<!-- Mewarisi kerangka induk dari base.html -->
+{% extends "base.html" %}
+
+<!-- Mengatur judul tab peramban untuk halaman favorit -->
+{% block title %}Resep Favorit Berdasarkan Frekuensi | Foodie{% endblock %}
+
+<!-- Memulai blok konten utama untuk halaman favorit -->
+{% block content %}
+
+<!-- ========================================================================== -->
+<!-- 1. PAGE HEADER: Judul halaman dan keterangan algoritma frekuensi buka      -->
+<!-- ========================================================================== -->
+<section class="page-header">
+    <div class="container">
+        <!-- Label penanda atas (eyebrow) -->
+        <span class="eyebrow">KOLEKSI PRIBADIMU</span>
+        <!-- Judul halaman dengan ikon hati aksen -->
+        <h1>Menu Paling Favorit <span class="brand-dot">♥</span></h1>
+        <!-- Keterangan bahwa favorit ditentukan berdasarkan seberapa sering dibuka -->
+        <p>Diurutkan secara otomatis berdasarkan seberapa sering kamu membuka dan melihat menunya.</p>
+    </div>
+</section>
+
+<!-- ========================================================================== -->
+<!-- 2. GRID RESEP FAVORIT: Kartu resep terurut frekuensi & lencana peringkat   -->
+<!-- ========================================================================== -->
+<section class="section-block">
+    <div class="container">
+        {# Mengecek apakah ada resep yang pernah dibuka / tersimpan di daftar favorit #}
+        {% if meals %}
+        <!-- Grid responsif penampil kartu resep favorit terurut -->
+        <div class="recipe-grid">
+            {# Melakukan iterasi pada setiap resep favorit yang diurutkan dari view_count terbanyak #}
+            {% for meal in meals %}
+            <article class="recipe-card">
+                <!-- Tautan thumbnail gambar resep menuju halaman detail -->
+                <a class="recipe-image" href="{{ url_for('recipe_detail', meal_id=meal.idMeal) }}">
+                    <!-- Foto sajian masakan dengan lazy loading -->
+                    <img src="{{ meal.strMealThumb }}" alt="{{ meal.strMeal }}" loading="lazy">
+                    <!-- Lencana kategori resep di sudut kiri atas gambar -->
+                    <span class="image-badge">{{ meal.strCategory or 'Favorite' }}</span>
+                    <!-- Lencana nomor urut peringkat (#1, #2, dst.) di sudut kanan atas gambar -->
+                    <span class="rank-badge">#{{ loop.index }}</span>
+                </a>
+                
+                <!-- Informasi nama resep, asal kuliner, dan frekuensi buka -->
+                <div class="recipe-info">
+                    <div class="recipe-meta">
+                        <!-- Asal daerah masakan -->
+                        {{ meal.strArea or 'International' }} cuisine
+                        <!-- Lencana indikator berapa kali resep ini telah dibuka oleh pengguna -->
+                        <span class="view-count-badge">🔥 Dibuka {{ meal.view_count or 1 }}x</span>
+                    </div>
+                    <!-- Judul nama masakan yang dapat diklik -->
+                    <h3><a href="{{ url_for('recipe_detail', meal_id=meal.idMeal) }}">{{ meal.strMeal }}</a></h3>
+                    
+                    <!-- Bagian bawah kartu: Tautan detail dan tombol aksi simpan menu & reset favorit -->
+                    <div class="recipe-card-bottom">
+                        <a class="view-recipe" href="{{ url_for('recipe_detail', meal_id=meal.idMeal) }}">Lihat resep ↗</a>
+                        
+                        <div class="d-flex align-items-center gap-2">
+                            <!-- Form tombol toggle Simpan Menu (Bookmark) -->
+                            <form action="{{ url_for('toggle_save_menu', meal_id=meal.idMeal) }}" method="POST">
+                                <button class="bookmark-button {{ 'is-saved' if meal.idMeal|string in saved_menu_ids else '' }}"
+                                        type="submit"
+                                        aria-label="Simpan ke Menu Tersimpan"
+                                        title="{{ 'Hapus dari Menu Tersimpan' if meal.idMeal|string in saved_menu_ids else 'Simpan Menu Ini' }}">
+                                    {{ '🔖' if meal.idMeal|string in saved_menu_ids else '📑' }}
+                                </button>
+                            </form>
+
+                            <!-- Form tombol toggle untuk mereset status favorit resep -->
+                            <form action="{{ url_for('toggle_favorite', meal_id=meal.idMeal) }}" method="POST">
+                                <button class="heart-button is-favorite" type="submit" aria-label="Hapus dari favorit" title="Hapus dari daftar sering dibuka">♥</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </article>
+            {% endfor %}
+        </div>
+        
+        {# Tampilan alternatif (empty state) jika pengguna belum pernah membuka menu resep apapun #}
+        {% else %}
+        <div class="empty-state">
+            <!-- Ikon hati kosong sebagai ilustrasi visual -->
+            <span>♡</span>
+            <h2>Belum ada menu favorit</h2>
+            <p>Buka dan jelajahi berbagai resep lezat. Resep yang paling sering kamu buka akan otomatis menjadi makanan favoritmu di sini!</p>
+            <!-- Tombol navigasi kembali ke beranda untuk mulai membuka resep -->
+            <a href="{{ url_for('index') }}" class="btn-orange">Jelajahi resep sekarang</a>
+        </div>
+        {% endif %}
+    </div>
+</section>
+
+<!-- Menutup blok konten favorit -->
+{% endblock %}

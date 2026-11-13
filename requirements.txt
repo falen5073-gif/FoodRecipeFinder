@@ -1,0 +1,23 @@
+# ==============================================================================
+# DAFTAR LIBRARY DAN DEPENDENSI PROYEK (requirements.txt)
+# ==============================================================================
+# Berkas ini mencatat semua pustaka (library/package) eksternal Python yang
+# dibutuhkan untuk menjalankan aplikasi "Food Recipe Finder".
+# ==============================================================================
+
+# [LIBRARY 1: FLASK]
+# Framework web micro yang fleksibel dan ringan untuk Python.
+# Digunakan untuk:
+# - Mengelola routing URL (endpoint halaman web dan API).
+# - Menangani request dan response HTTP (GET, POST).
+# - Merender template antarmuka HTML menggunakan template engine Jinja2.
+# - Mengelola session pengguna dan flash message (notifikasi pesan kilat).
+Flask>=3.0.0
+
+# [LIBRARY 2: PYMYSQL]
+# Driver murni Python untuk menghubungkan aplikasi dengan database MySQL / MariaDB.
+# Digunakan untuk:
+# - Menghubungkan skrip import data (import_data.py) ke server MySQL.
+# - Mengeksekusi query SQL (INSERT, SELECT, UPDATE, DELETE).
+# - Mengembalikan hasil query dalam bentuk dictionary (DictCursor) agar mudah diproses.
+PyMySQL>=1.1.0

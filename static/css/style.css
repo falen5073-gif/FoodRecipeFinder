@@ -1,0 +1,1224 @@
+/* ==============================================================================
+   LEMBAR GAYA UTAMA APLIKASI (static/css/style.css)
+   ==============================================================================
+   Berkas CSS ini mengatur seluruh tata letak (layout), tipografi, skema warna,
+   komponen antarmuka (UI), animasi interaktif, dukungan mode gelap (Dark Mode),
+   serta aturan responsif untuk berbagai ukuran layar perangkat (mobile/desktop).
+   ============================================================================== */
+
+/* ------------------------------------------------------------------------------
+   1. VARIABEL TEMA GLOBAL (CSS Custom Properties / Variables)
+   ------------------------------------------------------------------------------ */
+
+/* Variabel tema bawaan (Mode Terang / Light Mode) yang berlaku pada elemen :root */
+:root {
+    --bg: #fffaf3;                            /* Warna latar belakang utama bernuansa krem hangat */
+    --surface: #ffffff;                       /* Warna permukaan kartu dan panel (putih bersih) */
+    --surface-soft: #fff2e3;                  /* Warna permukaan lembut untuk aksen latar dan badge */
+    --text: #332820;                          /* Warna teks utama cokelat tua pekat agar nyaman dibaca */
+    --muted: #8b7c70;                         /* Warna teks sekunder / abu-abu kecokelatan untuk info pendukung */
+    --orange: #ed7d32;                        /* Warna aksen utama (oranye segar tema kuliner) */
+    --orange-dark: #d96620;                   /* Warna oranye lebih pekat saat status hover atau tombol aktif */
+    --border: #f0e5d9;                        /* Warna garis batas (border) halus pembatas elemen */
+    --shadow: 0 12px 35px rgba(76, 47, 25, .07); /* Bayangan lembut untuk efek elevasi kartu */
+}
+
+/* Variabel tema pengganti saat Mode Gelap (Dark Mode) diaktifkan melalui class 'dark-mode' pada body */
+body.dark-mode {
+    --bg: #211f1c;                            /* Latar belakang utama mode gelap bernuansa abu-abu arang */
+    --surface: #2c2925;                       /* Warna kartu / panel mode gelap */
+    --surface-soft: #393027;                  /* Warna aksen permukaan sekunder mode gelap */
+    --text: #fff4e9;                          /* Warna teks utama terang agar kontras dan mudah dibaca */
+    --muted: #c1b3a5;                         /* Warna teks redup untuk mode gelap */
+    --border: #494037;                        /* Garis batas halus dalam mode gelap */
+    --shadow: 0 12px 35px rgba(0, 0, 0, .15); /* Bayangan gelap pekat untuk mode malam */
+}
+
+/* ------------------------------------------------------------------------------
+   2. RESET DASAR DAN TIPOGRAFI UMUM
+   ------------------------------------------------------------------------------ */
+
+/* Mengatur box-sizing border-box pada seluruh elemen agar padding dan border dihitung dalam lebar/tinggi elemen */
+* { box-sizing: border-box; }
+
+/* Gaya dasar elemen body dokumen */
+body {
+    margin: 0;                                /* Menghilangkan margin bawaan browser */
+    background: var(--bg);                    /* Menerapkan warna latar belakang dari variabel CSS */
+    color: var(--text);                       /* Menerapkan warna font dari variabel CSS */
+    font-family: "DM Sans", sans-serif;       /* Menggunakan jenis huruf DM Sans untuk keterbacaan modern */
+    transition: background .25s, color .25s;  /* Efek transisi halus saat berganti tema terang/gelap */
+}
+
+/* Mengatur tautan default mewarisi warna teks dan tanpa garis bawah */
+a { color: inherit; text-decoration: none; }
+
+/* Mengatur gambar bersifat responsif dan tidak meluap dari wadahnya */
+img { display: block; max-width: 100%; }
+
+/* Mengatur tombol dan input mewarisi font keluarga dokumen */
+button, input { font: inherit; }
+
+/* Kustomisasi warna teks saat disorot / diblok kursor oleh pengguna */
+::selection { background: #ffcfaa; color: #402717; }
+
+/* ------------------------------------------------------------------------------
+   3. BILAH NAVIGASI UTAMA (SITE NAVBAR)
+   ------------------------------------------------------------------------------ */
+
+/* Kontainer utama navigasi website */
+.site-nav {
+    background: var(--bg);                    /* Warna latar navbar sesuai tema */
+    border-bottom: 1px solid var(--border);   /* Garis pemisah bawah navbar */
+    padding: 15px 0;                          /* Ruang vertikal dalam navbar */
+    z-index: 100;                             /* Memastikan navbar selalu berada di atas konten lain */
+}
+
+/* Gaya teks logo merek 'foodie.' */
+.brand {
+    font-size: 27px;                          /* Ukuran font logo */
+    font-weight: 800;                         /* Ketebalan font ekstra bold */
+    letter-spacing: -1.5px;                   /* Merapatkan spasi antar huruf untuk estetika modern */
+    color: var(--text);                       /* Warna font logo */
+}
+
+/* Mencegah perubahan warna logo yang tidak diinginkan saat kursor diarahkan (hover) */
+.brand:hover { color: var(--text); }
+
+/* Warna ikon bintang aksen pada logo */
+.brand-icon { color: var(--orange); }
+
+/* Warna titik aksen pada logo 'foodie.' */
+.brand-dot { color: var(--orange); }
+
+/* Tautan menu navigasi */
+.nav-link {
+    color: var(--muted);                      /* Warna teks menu default */
+    font-size: 14px;                          /* Ukuran font menu navigasi */
+    font-weight: 600;                         /* Bobot font semi-bold */
+}
+
+/* Perubahan warna menu navigasi saat disorot kursor */
+.nav-link:hover { color: var(--orange); }
+
+/* Lencana (badge) penampil jumlah resep favorit di samping menu */
+.favorite-count {
+    display: inline-flex;                     /* Mengatur tata letak flex inline */
+    align-items: center;                      /* Meratakan konten vertikal ke tengah */
+    justify-content: center;                  /* Meratakan konten horizontal ke tengah */
+    background: var(--surface-soft);          /* Warna latar lencana */
+    color: var(--orange-dark);                /* Warna angka di dalam lencana */
+    border-radius: 20px;                      /* Bentuk kapsul melingkar penuh */
+    font-size: 11px;                          /* Ukuran font angka */
+    min-width: 21px;                          /* Lebar minimum lencana */
+    height: 21px;                             /* Tinggi lencana */
+    padding: 0 5px;                           /* Jarak padding samping */
+}
+
+/* Lencana (badge) penampil jumlah menu yang disimpan di samping menu navigasi */
+.saved-menu-count, .places-count {
+    display: inline-flex;                     /* Mengatur tata letak flex inline */
+    align-items: center;                      /* Meratakan konten vertikal ke tengah */
+    justify-content: center;                  /* Meratakan konten horizontal ke tengah */
+    background: var(--surface-soft);          /* Warna latar lencana lembut */
+    color: var(--orange-dark);                /* Warna teks angka oranye */
+    border-radius: 20px;                      /* Bentuk kapsul melingkar penuh */
+    font-size: 11px;                          /* Ukuran font angka */
+    min-width: 21px;                          /* Lebar minimum lencana */
+    height: 21px;                             /* Tinggi lencana */
+    padding: 0 5px;                           /* Jarak padding samping */
+}
+
+/* Tombol bulat pengubah tema mode gelap / terang (theme toggle) */
+.theme-toggle {
+    border: 1px solid var(--border);          /* Garis batas tombol */
+    background: var(--surface);               /* Latar belakang tombol */
+    color: var(--text);                       /* Warna simbol matahari/bulan */
+    border-radius: 50%;                       /* Membentuk lingkaran sempurna */
+    width: 39px;                              /* Lebar tombol */
+    height: 39px;                             /* Tinggi tombol */
+    cursor: pointer;                          /* Mengubah kursor jadi pointer saat didekati */
+}
+
+/* ------------------------------------------------------------------------------
+   4. HERO SECTION (BAGIAN SAMBUTAN BERANDA)
+   ------------------------------------------------------------------------------ */
+
+/* Wadah seksi hero */
+.hero-section {
+    padding: 78px 0 85px;                     /* Jarak padding atas dan bawah */
+    overflow: hidden;                         /* Mencegah dekorasi keluar dari batas halaman */
+}
+
+/* Grid layout untuk membagi kolom teks sambutan dan visual foto */
+.hero-grid {
+    display: grid;                            /* Menerapkan CSS Grid */
+    grid-template-columns: 1.08fr .92fr;      /* Rasio lebar kolom teks (1.08) dan kolom visual (.92) */
+    gap: 60px;                                /* Jarak pemisah antar dua kolom */
+    align-items: center;                      /* Meratakan posisi elemen secara vertikal di tengah */
+}
+
+/* Teks label kecil pembuka di atas judul */
+.eyebrow {
+    display: inline-block;                    /* Menjadikan elemen block sejajar teks */
+    color: var(--orange-dark);                /* Warna oranye aksen */
+    font-size: 11px;                          /* Ukuran teks kecil */
+    font-weight: 800;                         /* Huruf sangat tebal */
+    letter-spacing: 2px;                      /* Jarak renggang antar huruf kapital */
+    margin-bottom: 16px;                      /* Jarak bawah sebelum heading */
+}
+
+/* Titik lingkaran kecil aksen di samping teks eyebrow */
+.eyebrow-dot {
+    display: inline-block;                    /* Elemen sejajar teks */
+    background: var(--orange);                /* Warna titik oranye */
+    width: 7px;                               /* Diameter titik */
+    height: 7px;                              /* Tinggi titik */
+    border-radius: 50%;                       /* Membentuk bulatan sempurna */
+    margin-right: 6px;                        /* Jarak kanan ke teks */
+}
+
+/* Tipografi judul utama bergaya serif (Playfair Display) */
+.hero-copy h1, .page-header h1, .detail-heading-grid h1 {
+    font-family: "Playfair Display", serif;   /* Font serif elegan */
+    font-weight: 800;                         /* Bobot font bold */
+    font-size: clamp(47px, 6vw, 76px);        /* Ukuran font fluid responsif (min 47px, ideal 6vw, max 76px) */
+    line-height: 1.08;                        /* Kerapatan jarak antar baris */
+    letter-spacing: -2px;                     /* Kerapatan jarak antar huruf */
+    margin: 0;                                /* Menghilangkan margin bawaan */
+}
+
+/* Warna aksen oranye pada kata tertentu di judul */
+.hero-copy h1 span { color: var(--orange); }
+
+/* Deskripsi pengantar pada hero section */
+.hero-description {
+    color: var(--muted);                      /* Warna teks abu-abu lembut */
+    max-width: 470px;                         /* Membatasi panjang baris baca agar optimal */
+    line-height: 1.9;                         /* Ketinggian baris untuk kenyamanan membaca */
+    margin: 22px 0 27px;                      /* Jarak margin vertikal */
+    font-size: 15px;                          /* Ukuran font deskripsi */
+}
+
+/* Kotak pencarian resep interaktif */
+.search-box {
+    display: flex;                            /* Tata letak fleksibel */
+    align-items: center;                      /* Menyelaraskan input dan tombol ke tengah secara vertikal */
+    gap: 12px;                                /* Jarak pemisah antar komponen dalam kotak pencarian */
+    max-width: 540px;                         /* Lebar maksimal form */
+    padding: 8px;                             /* Ruang dalam form */
+    background: var(--surface);               /* Warna latar putih kartu */
+    border: 1px solid var(--border);          /* Garis tepi */
+    border-radius: 14px;                      /* Sudut membulat */
+    box-shadow: var(--shadow);                /* Bayangan elevasi */
+}
+
+/* Simbol ikon kaca pembesar pencarian */
+.search-icon {
+    font-size: 29px;                          /* Ukuran ikon */
+    color: var(--orange);                     /* Warna oranye */
+    line-height: 1;                           /* Tinggi baris pas dengan ikon */
+    padding-left: 8px;                        /* Jarak padding sisi kiri */
+}
+
+/* Kolom input ketik teks pencarian */
+.search-box input {
+    flex: 1;                                  /* Mengisi seluruh sisa ruang horizontal yang tersedia */
+    min-width: 0;                             /* Mencegah input meluap pada layar sempit */
+    background: transparent;                  /* Latar belakang transparan menyatu dengan kotak */
+    color: var(--text);                       /* Warna font teks yang diketik */
+    border: 0;                                /* Menghilangkan garis tepi default */
+    outline: 0;                               /* Menghilangkan outline fokus default browser */
+    padding: 10px 0;                          /* Padding atas dan bawah */
+    font-size: 13px;                          /* Ukuran font input */
+}
+
+/* Warna teks placeholder (contoh ketik) pada input */
+.search-box input::placeholder { color: var(--muted); }
+
+/* Tombol aksi utama berwarna oranye (Call to Action Button) */
+.btn-orange {
+    display: inline-flex;                     /* Tata letak flex sebaris */
+    justify-content: center;                  /* Menyelaraskan teks tombol ke tengah horizontal */
+    align-items: center;                      /* Menyelaraskan teks tombol ke tengah vertikal */
+    background: var(--orange);                /* Warna latar belakang tombol oranye */
+    color: #fff;                              /* Warna teks putih kontras */
+    border: 0;                                /* Menghilangkan garis tepi default */
+    border-radius: 10px;                      /* Sudut membulat halus */
+    padding: 13px 20px;                       /* Ruang padding dalam tombol */
+    font-size: 13px;                          /* Ukuran font teks tombol */
+    font-weight: 700;                         /* Ketebalan font bold */
+    transition: .2s;                          /* Durasi animasi transisi interaksi */
+    cursor: pointer;                          /* Kursor pointer saat disentuh */
+}
+
+/* Efek saat tombol oranye disorot kursor (hover) */
+.btn-orange:hover {
+    background: var(--orange-dark);           /* Warna oranye menjadi lebih pekat */
+    color: #fff;                              /* Teks tetap putih */
+    transform: translateY(-1px);              /* Efek terangkat sedikit ke atas 1px */
+}
+
+/* Catatan teks kecil di bawah form pencarian */
+.hero-note {
+    color: var(--muted);                      /* Warna font redup */
+    margin-top: 22px;                         /* Jarak atas dari kotak pencarian */
+    font-size: 12px;                          /* Ukuran font kecil */
+}
+
+/* Ikon bintang aksen pada catatan */
+.hero-note span { color: var(--orange); margin-right: 5px; }
+
+/* Wadah visual sisi kanan hero */
+.hero-visual {
+    position: relative;                       /* Menjadi jangkar posisi bagi kartu-kartu melayang (absolute) */
+    padding: 10px 18px 18px 8px;              /* Ruang napas di sekeliling visual */
+}
+
+/* Bingkai pembungkus foto hidangan hero dengan bentuk asimetris modern */
+.hero-image-wrap {
+    height: 405px;                            /* Ketinggian gambar hero */
+    overflow: hidden;                         /* Memotong gambar agar sesuai lengkungan border radius */
+    border-radius: 48% 48% 22px 22px;         /* Bentuk lengkungan kubah atas modern */
+    background: var(--surface-soft);          /* Latar belakang sebelum gambar termuat */
+    box-shadow: var(--shadow);                /* Bayangan elevasi */
+}
+
+/* Foto hidangan di dalam pembungkus hero */
+.hero-image-wrap img {
+    width: 100%;                              /* Lebar memenuhi kontainer */
+    height: 100%;                             /* Tinggi memenuhi kontainer */
+    object-fit: cover;                        /* Mempertahankan rasio proporsi foto tanpa distorsi */
+}
+
+/* Kartu info mengambang di atas foto hero */
+.floating-card {
+    display: flex;                            /* Tata letak fleksibel */
+    align-items: center;                      /* Menyelaraskan ikon dan teks ke tengah vertikal */
+    gap: 12px;                                /* Jarak pemisah ikon dan teks */
+    position: absolute;                       /* Posisi mengambang relatif terhadap .hero-visual */
+    background: var(--surface);               /* Warna latar kartu */
+    color: var(--text);                       /* Warna font */
+    padding: 13px 17px;                       /* Padding dalam kartu */
+    border-radius: 15px;                      /* Sudut membulat kartu */
+    box-shadow: var(--shadow);                /* Bayangan melayang */
+    z-index: 2;                               /* Tampil di atas layer foto */
+}
+
+/* Posisi kartu melayang bagian atas-kiri */
+.floating-top { top: 47px; left: -32px; }
+
+/* Posisi kartu melayang bagian bawah-kanan */
+.floating-bottom { right: -3px; bottom: 42px; }
+
+/* Wadah ikon bulat di dalam kartu melayang */
+.floating-icon {
+    display: grid;                            /* CSS Grid untuk pemusatan */
+    place-items: center;                      /* Memposisikan ikon tepat di tengah */
+    width: 42px;                              /* Lebar lingkaran ikon */
+    height: 42px;                             /* Tinggi lingkaran ikon */
+    border-radius: 12px;                      /* Sudut membulat */
+    background: var(--surface-soft);          /* Warna latar lembut */
+    font-size: 22px;                          /* Ukuran emoji / ikon */
+}
+
+/* Tata letak teks dalam kartu melayang */
+.floating-card strong, .floating-card small { display: block; }
+.floating-card strong { font-size: 12px; }
+.floating-card small { color: var(--muted); font-size: 10px; margin-top: 4px; }
+
+/* Simbol dekorasi bintang aksen di sekitar visual hero */
+.hero-decoration { position: absolute; color: var(--orange); }
+.decoration-one { font-size: 42px; right: 5px; top: -22px; }
+.decoration-two { font-size: 24px; bottom: 4px; left: -13px; }
+
+/* ------------------------------------------------------------------------------
+   5. BAGIAN KATEGORI RESEP (CATEGORIES SECTION)
+   ------------------------------------------------------------------------------ */
+
+/* Pengaturan padding vertikal umum untuk setiap blok seksi */
+.section-block { padding: 70px 0; }
+
+/* Seksi kategori dengan garis batas atas dan bawah */
+.categories-section {
+    background: var(--surface);               /* Latar belakang permukaan kontras */
+    border-top: 1px solid var(--border);      /* Garis batas atas */
+    border-bottom: 1px solid var(--border);   /* Garis batas bawah */
+}
+
+/* Header bagian seksi (judul di kiri, keterangan/link di kanan) */
+.section-heading {
+    display: flex;                            /* Tata letak flex horizontal */
+    align-items: end;                         /* Menyelaraskan teks ke garis dasar bawah */
+    justify-content: space-between;           /* Memberi spasi pemisah maksimum antara kiri dan kanan */
+    gap: 20px;                                /* Jarak pemisah minimum */
+    margin-bottom: 30px;                      /* Jarak bawah sebelum isi konten seksi */
+}
+
+/* Menyesuaikan margin bawah label eyebrow pada heading seksi */
+.section-heading .eyebrow { margin-bottom: 8px; }
+
+/* Pengaturan gaya judul h2 pada seluruh panel dan seksi */
+.section-heading h2, .ingredients-panel h2,
+.instructions-panel h2, .about-copy h2, .cta-inner h2 {
+    font-family: "Playfair Display", serif;   /* Font serif Playfair Display */
+    font-size: clamp(27px, 3.5vw, 39px);      /* Ukuran judul fluid responsif */
+    font-weight: 700;                         /* Bobot font bold */
+    letter-spacing: -.7px;                    /* Spasi huruf lebih rapat */
+    margin: 0;                                /* Menghapus margin default */
+}
+
+/* Teks subjudul keterangan pada section-heading */
+.section-heading > p {
+    color: var(--muted);                      /* Warna teks sekunder */
+    font-size: 13px;                          /* Ukuran font */
+    margin-bottom: 5px;                       /* Margin bawah */
+}
+
+/* Grid penata kartu kategori (6 kolom seimbang pada desktop) */
+.category-grid {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);    /* Membagi menjadi 6 kolom berukuran sama */
+    gap: 13px;                                /* Jarak pemisah antar kartu kategori */
+}
+
+/* Kartu tautan kategori makanan */
+.category-card {
+    min-height: 130px;                        /* Ketinggian minimum kartu */
+    padding: 17px 12px;                       /* Padding dalam kartu */
+    border-radius: 15px;                      /* Sudut membulat */
+    background: var(--bg);                    /* Warna latar kartu */
+    border: 1px solid var(--border);          /* Garis batas halus */
+    position: relative;                       /* Sebagai patokan posisi ikon panah */
+    display: flex;                            /* Tata letak flex vertikal */
+    flex-direction: column;
+    justify-content: center;                  /* Konten terpusat vertikal */
+    align-items: center;                      /* Konten terpusat horizontal */
+    gap: 9px;                                 /* Jarak antar elemen dalam kartu */
+    transition: .2s;                          /* Durasi animasi hover */
+}
+
+/* Efek saat kartu kategori disorot kursor (hover) */
+.category-card:hover {
+    transform: translateY(-4px);              /* Mengangkat kartu setinggi 4px */
+    border-color: var(--orange);              /* Mengubah warna border menjadi oranye */
+    color: var(--orange-dark);                /* Mengubah warna teks menjadi oranye tua */
+}
+
+/* Ukuran emoji penanda jenis makanan */
+.category-emoji { font-size: 32px; }
+
+/* Nama label kategori masakan */
+.category-name { font-size: 12px; font-weight: 700; }
+
+/* Ikon panah pojok atas kanan pada kartu kategori */
+.category-arrow { position: absolute; top: 8px; right: 10px; color: var(--muted); }
+
+/* ------------------------------------------------------------------------------
+   6. BAGIAN RESEP UNGGULAN & KARTU RESEP (RECIPE CARDS)
+   ------------------------------------------------------------------------------ */
+
+/* Latar belakang seksi resep unggulan */
+.featured-section { background: var(--bg); }
+
+/* Tautan teks bergaya tombol dengan warna oranye */
+.text-link {
+    color: var(--orange-dark);                /* Warna teks oranye */
+    font-weight: 700;                         /* Font tebal */
+    font-size: 13px;                          /* Ukuran font */
+}
+.text-link:hover { color: var(--text); }      /* Warna berubah sesuai teks saat disorot */
+
+/* Grid penampil kumpulan kartu resep (3 kolom seimbang pada desktop) */
+.recipe-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr)); /* 3 kolom dengan batas minimum 0 */
+    gap: 25px;                                /* Jarak pemisah antar kartu */
+}
+
+/* Komponen kartu resep masakan */
+.recipe-card {
+    min-width: 0;                             /* Mencegah overflow pada grid */
+    background: var(--surface);               /* Latar belakang putih kartu */
+    border: 1px solid var(--border);          /* Garis batas kartu */
+    border-radius: 17px;                      /* Sudut membulat kartu */
+    overflow: hidden;                         /* Mencegah gambar keluar dari border radius */
+    transition: transform .25s, box-shadow .25s; /* Animasi mulus saat kartu disorot */
+}
+
+/* Efek elevasi kartu resep saat disorot kursor (hover) */
+.recipe-card:hover {
+    transform: translateY(-5px);              /* Kartu melayang naik 5px */
+    box-shadow: var(--shadow);                /* Menampilkan bayangan melayang */
+}
+
+/* Pembungkus foto masakan kartu resep */
+.recipe-image {
+    display: block;
+    position: relative;                       /* Patokan posisi untuk lencana kategori */
+    height: 230px;                            /* Ketinggian tetap untuk konsistensi kartu */
+    overflow: hidden;
+    background: var(--surface-soft);
+}
+
+/* Foto hidangan di dalam kartu resep */
+.recipe-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;                        /* Menyesuaikan foto agar pas tanpa distorsi */
+    transition: transform .35s;               /* Animasi efek zoom foto saat hover */
+}
+
+/* Efek zoom foto saat kartu resep disorot */
+.recipe-card:hover .recipe-image img { transform: scale(1.05); }
+
+/* Lencana kategori yang menempel di sudut foto resep */
+.image-badge {
+    position: absolute;
+    top: 13px;
+    left: 13px;
+    background: var(--surface);               /* Latar belakang putih lencana */
+    color: var(--text);                       /* Warna teks */
+    border-radius: 20px;                      /* Bentuk kapsul melengkung */
+    padding: 7px 11px;                        /* Padding dalam lencana */
+    font-size: 10px;                          /* Ukuran font kecil */
+    font-weight: 700;                         /* Font tebal */
+}
+
+/* Lencana urutan peringkat favorit pada sudut atas kanan gambar */
+.rank-badge {
+    position: absolute;
+    top: 13px;
+    right: 13px;
+    background: var(--orange);                /* Latar belakang oranye pekat */
+    color: #fff;                              /* Teks putih terang */
+    border-radius: 20px;                      /* Bentuk kapsul */
+    padding: 6px 10px;                        /* Ruang dalam lencana */
+    font-size: 10px;                          /* Ukuran font */
+    font-weight: 800;                         /* Huruf ekstra tebal */
+    box-shadow: 0 4px 10px rgba(237, 125, 50, .3); /* Bayangan oranye halus */
+}
+
+/* Lencana penampil frekuensi berapa kali menu resep dibuka oleh pengguna */
+.view-count-badge {
+    display: inline-flex;                     /* Tata letak fleksibel sebaris */
+    align-items: center;                      /* Konten rata tengah vertikal */
+    gap: 4px;                                 /* Jarak ikon dan teks */
+    background: var(--surface-soft);          /* Latar belakang lembut */
+    color: var(--orange-dark);                /* Teks warna oranye pekat */
+    border: 1px solid var(--border);          /* Garis batas halus */
+    border-radius: 20px;                      /* Bentuk kapsul membulat */
+    font-size: 10px;                          /* Ukuran teks ringkas */
+    font-weight: 700;                         /* Huruf tebal */
+    padding: 2px 8px;                         /* Ruang padding */
+    margin-left: 6px;                         /* Jarak dari teks asal masakan */
+    vertical-align: middle;                   /* Rata tengah dengan teks sekitarnya */
+}
+
+/* Tag khusus penampil frekuensi buka di halaman detail resep */
+.view-tag {
+    background: var(--surface-soft) !important;
+    color: var(--orange-dark) !important;
+    border-color: var(--orange) !important;
+    font-weight: 700 !important;
+}
+
+/* Kotak informasi teks di bawah foto resep */
+.recipe-info { padding: 18px; }
+
+/* Keterangan negara/daerah kuliner */
+.recipe-meta { color: var(--muted); font-size: 11px; margin-bottom: 7px; }
+
+/* Judul masakan pada kartu resep */
+.recipe-info h3 {
+    font-family: "Playfair Display", serif;   /* Font Playfair */
+    font-size: 21px;                          /* Ukuran teks judul */
+    line-height: 1.3;                         /* Jarak baris */
+    min-height: 52px;                         /* Menjamin keselarasan tinggi judul kartu antar kolom */
+    margin: 0 0 13px;                         /* Margin bawah */
+}
+
+/* Bagian baris bawah kartu resep (tautan & tombol bookmark) */
+.recipe-card-bottom {
+    display: flex;
+    justify-content: space-between;           /* Memisahkan tautan detail di kiri dan tombol favorit di kanan */
+    align-items: center;                      /* Menyelaraskan posisi vertikal */
+    border-top: 1px solid var(--border);      /* Garis pembatas atas */
+    padding-top: 13px;                        /* Jarak atas dari garis */
+}
+
+/* Menghilangkan margin bawaan pada tag form di dalam kartu */
+.recipe-card-bottom form { margin: 0; }
+
+/* Tautan teks 'Lihat resep' */
+.view-recipe { color: var(--orange-dark); font-size: 12px; font-weight: 700; }
+.view-recipe:hover { color: var(--text); }
+
+/* Tombol bulat ikon hati favorit */
+.heart-button {
+    width: 36px;
+    height: 36px;
+    border: 1px solid var(--border);
+    background: var(--bg);
+    color: var(--text);
+    border-radius: 50%;                       /* Bentuk lingkaran penuh */
+    font-size: 19px;
+    cursor: pointer;                          /* Pointer kursor */
+}
+
+/* Warna merah hati saat tombol favorit aktif atau disorot */
+.heart-button:hover, .heart-button.is-favorite { color: #e75d53; }
+
+/* Tombol bulat untuk aksi Simpan Menu (Bookmark Resep) */
+.bookmark-button {
+    width: 36px;
+    height: 36px;
+    border: 1px solid var(--border);
+    background: var(--bg);
+    color: var(--text);
+    border-radius: 50%;                       /* Bentuk lingkaran penuh */
+    font-size: 16px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;                          /* Pointer kursor saat disentuh */
+    transition: transform .2s, border-color .2s;
+}
+.bookmark-button:hover {
+    transform: scale(1.1);
+    border-color: var(--orange);
+}
+.bookmark-button.is-saved {
+    background: var(--surface-soft);
+    border-color: var(--orange);
+}
+
+/* Lencana status menu tersimpan pada sudut atas foto */
+.saved-status-badge {
+    background: #2e7d32 !important;
+    color: #fff !important;
+}
+
+/* Tombol aksi cepat untuk menambah atau mengedit catatan menu */
+.btn-note-action {
+    background: var(--bg);
+    color: var(--muted);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    font-size: 11px;
+    font-weight: 600;
+    padding: 6px 10px;
+    cursor: pointer;
+    transition: .2s;
+}
+.btn-note-action:hover {
+    color: var(--orange-dark);
+    border-color: var(--orange);
+    background: var(--surface-soft);
+}
+
+/* ------------------------------------------------------------------------------
+   7. BAGIAN CALL TO ACTION (CTA SECTION)
+   ------------------------------------------------------------------------------ */
+
+/* Wadah seksi ajakan bertindak berwarna oranye penuh */
+.cta-section {
+    padding: 50px 0;
+    background: #ed7d32;                      /* Latar oranye pekat khas */
+    color: #fff;                              /* Teks putih */
+}
+
+/* Tata letak internal konten CTA */
+.cta-inner {
+    display: flex;
+    justify-content: space-between;           /* Teks di kiri, tombol di kanan */
+    align-items: center;
+    gap: 25px;
+}
+
+/* Penyesuaian warna teks di dalam seksi CTA */
+.cta-inner .eyebrow { color: #ffe6d3; margin-bottom: 8px; }
+.cta-inner h2 { max-width: 570px; font-size: clamp(28px, 4vw, 42px); }
+.cta-inner p { color: #fff0e3; font-size: 13px; margin: 12px 0 0; }
+
+/* Tombol putih kontras pada seksi CTA */
+.btn-light {
+    background: #fff;                         /* Latar belakang putih */
+    color: #b94f16;                           /* Teks oranye tua */
+    padding: 14px 21px;
+    border-radius: 10px;
+    white-space: nowrap;                      /* Mencegah teks tombol terpotong ke baris baru */
+    font-weight: 700;
+    font-size: 13px;
+}
+.btn-light:hover { background: #fff1e4; color: #b94f16; }
+
+/* ------------------------------------------------------------------------------
+   8. HEADER HALAMAN & STATUS PENCARIAN (PAGE HEADER & RESULTS)
+   ------------------------------------------------------------------------------ */
+
+/* Header umum halaman pencarian, favorit, dan tentang */
+.page-header {
+    text-align: center;                       /* Teks rata tengah */
+    padding: 70px 0 45px;                     /* Padding atas dan bawah */
+    background: var(--surface-soft);          /* Latar belakang lembut */
+    border-bottom: 1px solid var(--border);   /* Garis batas bawah */
+}
+
+/* Penyesuaian ukuran font judul pada header halaman */
+.page-header h1 { font-size: clamp(37px, 5vw, 57px); }
+.page-header p { color: var(--muted); font-size: 14px; margin-top: 15px; }
+
+/* Penyesuaian kotak pencarian yang tampil di header halaman pencarian */
+.search-box-page { margin: 25px auto 0; text-align: left; }
+
+/* Label penghitung jumlah hasil pencarian */
+.results-label { color: var(--muted); margin-bottom: 22px; font-size: 13px; }
+.results-label strong { color: var(--text); }
+
+/* Kotak tampilan status kosong (Empty State) saat resep tidak ditemukan atau belum ada favorit */
+.empty-state {
+    max-width: 550px;
+    margin: 30px auto;                        /* Posisi di tengah secara horizontal */
+    padding: 55px 25px;
+    text-align: center;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+}
+
+/* Ikon ilustrasi besar pada empty state */
+.empty-state > span { display: block; font-size: 48px; margin-bottom: 15px; color: var(--orange); }
+.empty-state h2, .empty-state h3 { font-family: "Playfair Display", serif; }
+.empty-state p { color: var(--muted); font-size: 13px; line-height: 1.8; margin: 13px 0 22px; }
+
+/* ------------------------------------------------------------------------------
+   9. HALAMAN DETAIL RESEP (RECIPE DETAIL PAGE)
+   ------------------------------------------------------------------------------ */
+
+/* Header khusus pada halaman detail */
+.detail-header { padding: 35px 0 60px; background: var(--surface-soft); }
+
+/* Tautan kembali ke beranda */
+.back-link { display: inline-block; color: var(--muted); font-size: 12px; margin-bottom: 35px; }
+.back-link:hover { color: var(--orange); }
+
+/* Grid dua kolom penata info detail dan gambar hidangan */
+.detail-heading-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;           /* Dua kolom seimbang */
+    align-items: center;                      /* Menyelaraskan teks dan foto secara vertikal */
+    gap: 50px;
+}
+
+/* Tipografi judul masakan di halaman detail */
+.detail-heading-grid h1 { font-size: clamp(37px, 4.5vw, 60px); }
+.detail-description { color: var(--muted); font-size: 14px; line-height: 1.8; margin: 18px 0; }
+
+/* Lencana tag kategori dan wilayah di halaman detail */
+.detail-tags { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 23px; }
+.detail-tags span { background: var(--surface); border: 1px solid var(--border); padding: 8px 12px; border-radius: 20px; font-size: 11px; }
+
+/* Bingkai foto utama hidangan masakan pada halaman detail */
+.detail-main-image {
+    height: 370px;
+    overflow: hidden;
+    border-radius: 20px;
+    box-shadow: var(--shadow);
+}
+.detail-main-image img { width: 100%; height: 100%; object-fit: cover; }
+
+/* Tata letak dua kolom: Panel Bahan di kiri (.8fr) dan Panel Instruksi di kanan (1.2fr) */
+.detail-columns {
+    display: grid;
+    grid-template-columns: .8fr 1.2fr;
+    align-items: start;
+    gap: 55px;
+}
+
+/* Panel penampung daftar bahan-bahan masakan */
+.ingredients-panel {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 18px;
+    padding: 25px;
+}
+
+.ingredients-panel h2, .instructions-panel h2 { font-size: 29px; }
+.panel-subtitle { color: var(--muted); font-size: 12px; margin: 10px 0 22px; }
+
+/* Baris item bahan masakan yang dapat dicentang */
+.ingredient-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 13px 0;
+    border-bottom: 1px solid var(--border);
+    cursor: pointer;
+    font-size: 12px;
+}
+.ingredient-item:last-child { border-bottom: 0; }     /* Menghapus border bawah pada baris terakhir */
+.ingredient-item input { accent-color: var(--orange); } /* Mengubah warna centang kotak menjadi oranye */
+.ingredient-text { flex: 1; }                          /* Nama bahan mengambil sisa lebar */
+.ingredient-measure { color: var(--muted); font-size: 11px; text-align: right; }
+
+/* Gaya coret teks jika bahan telah dicentang (checked) oleh pengguna */
+.ingredient-item:has(input:checked) .ingredient-text { text-decoration: line-through; color: var(--muted); }
+
+/* Panel daftar langkah instruksi memasak */
+.instructions-list { margin-top: 25px; }
+
+/* Komponen baris satu langkah instruksi */
+.instruction-step {
+    display: grid;
+    grid-template-columns: 45px 1fr;          /* Kolom nomor langkah (45px) dan teks instruksi */
+    gap: 14px;
+    padding: 20px 0;
+    border-bottom: 1px solid var(--border);
+}
+
+/* Kotak angka penomoran langkah memasak */
+.step-number {
+    display: grid;
+    place-items: center;
+    background: var(--surface-soft);
+    color: var(--orange-dark);
+    border-radius: 12px;
+    width: 42px;
+    height: 42px;
+    font-weight: 800;
+    font-size: 12px;
+}
+
+/* Paragraf teks instruksi memasak */
+.instruction-step p { margin: 7px 0 0; font-size: 13px; line-height: 1.9; white-space: pre-line; }
+
+/* Tombol pemutar video YouTube */
+.video-button { margin-top: 25px; }
+
+/* Tautan teks ke sumber referensi resep asli */
+.source-link { color: var(--muted); font-size: 12px; margin-top: 20px; }
+.source-link a { color: var(--orange-dark); font-weight: 700; }
+
+/* ------------------------------------------------------------------------------
+   10. HALAMAN TENTANG APLIKASI (ABOUT PAGE)
+   ------------------------------------------------------------------------------ */
+
+/* Grid tata letak halaman Tentang */
+.about-grid {
+    display: grid;
+    grid-template-columns: .8fr 1.2fr;        /* Ilustrasi di kiri (.8fr), teks di kanan (1.2fr) */
+    gap: 65px;
+    align-items: center;
+}
+
+/* Kotak visual ilustrasi buah pada halaman Tentang */
+.about-illustration {
+    display: grid;
+    place-items: center;
+    min-height: 310px;
+    position: relative;
+    border-radius: 25px;
+    background: var(--surface-soft);
+    font-size: 115px;                         /* Ukuran emoji buah */
+}
+.about-illustration span { position: absolute; top: 22px; right: 25px; font-size: 45px; color: var(--orange); }
+
+/* Tipografi dan spasi teks pada halaman Tentang */
+.about-copy h2 { margin-bottom: 18px; }
+.about-copy p { color: var(--muted); font-size: 14px; line-height: 1.9; margin-bottom: 15px; }
+.about-copy .btn-orange { margin-top: 8px; }
+
+/* ------------------------------------------------------------------------------
+   11. NOTIFIKASI FLASH & FOOTER (MESSAGES & FOOTER)
+   ------------------------------------------------------------------------------ */
+
+/* Jarak padding atas kontainer notifikasi flash message */
+.flash-container { padding-top: 15px; }
+
+/* Bagian footer website */
+.site-footer { border-top: 1px solid var(--border); background: var(--surface); padding: 35px 0; }
+.footer-inner { text-align: center; }
+.footer-brand { font-size: 24px; }
+.footer-inner p { color: var(--muted); font-size: 12px; margin: 10px 0; }
+.footer-inner small { color: var(--muted); font-size: 10px; }
+
+/* ------------------------------------------------------------------------------
+   12. FITUR TEMPAT KULINER YANG DISIMPAN (SAVED PLACES)
+   ------------------------------------------------------------------------------ */
+
+/* Bilah formulir filter dan pencarian tempat kuliner */
+.places-filter-bar {
+    display: flex;                            /* Tata letak fleksibel horizontal */
+    align-items: center;                      /* Elemen rata tengah secara vertikal */
+    gap: 14px;                                /* Jarak pemisah antar elemen filter */
+    flex-wrap: wrap;                          /* Membungkus baris jika layar sempit */
+    background: var(--surface);               /* Latar belakang putih kartu */
+    border: 1px solid var(--border);          /* Garis tepi */
+    border-radius: 16px;                      /* Sudut membulat */
+    padding: 12px 16px;                       /* Padding dalam bilah filter */
+    box-shadow: var(--shadow);                /* Bayangan lembut */
+}
+
+/* Wadah pembungkus input pencarian tempat */
+.filter-input-wrap {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex: 1 1 260px;                          /* Tumbuh fleksibel dengan lebar basis 260px */
+}
+
+/* Kolom input teks pencarian tempat */
+.filter-input-wrap input {
+    width: 100%;
+    border: 0;
+    outline: 0;
+    background: transparent;
+    color: var(--text);
+    font-size: 13px;
+    padding: 6px 0;
+}
+
+/* Wadah pembungkus dropdown pemilihan kota */
+.filter-select-wrap {
+    flex: 0 0 180px;                          /* Lebar tetap 180px untuk dropdown */
+}
+
+/* Dropdown seleksi kota */
+.filter-select-wrap select {
+    width: 100%;
+    background: var(--bg);
+    color: var(--text);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 8px 12px;
+    font-size: 13px;
+    cursor: pointer;
+    outline: 0;
+}
+
+/* Tombol submit filter */
+.filter-btn {
+    padding: 9px 20px;
+}
+
+/* Tombol / tautan untuk mereset filter pencarian */
+.btn-reset-filter {
+    color: var(--muted);
+    font-size: 12px;
+    font-weight: 600;
+    text-decoration: underline;
+    background: transparent;
+    border: 0;
+    cursor: pointer;
+}
+.btn-reset-filter:hover { color: var(--orange-dark); }
+
+/* Baris info jumlah hasil pencarian tempat */
+.results-meta-bar {
+    color: var(--muted);
+    font-size: 13px;
+}
+.results-meta-bar strong { color: var(--text); }
+
+/* Grid penampil kartu-kartu tempat kuliner */
+.places-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr)); /* 3 kolom proporsional pada desktop */
+    gap: 25px;                                /* Jarak pemisah antar kartu */
+}
+
+/* Komponen kartu tempat kuliner */
+.place-card {
+    min-width: 0;
+    background: var(--surface);               /* Latar belakang permukaan kartu */
+    border: 1px solid var(--border);          /* Garis batas kartu */
+    border-radius: 18px;                      /* Sudut membulat */
+    overflow: hidden;                         /* Mencegah gambar meluap */
+    display: flex;
+    flex-direction: column;                   /* Tata letak konten mengalir ke bawah */
+    transition: transform .25s, box-shadow .25s; /* Animasi mulus saat kartu disorot */
+}
+
+/* Efek kartu melayang saat disorot kursor */
+.place-card:hover {
+    transform: translateY(-5px);              /* Kartu naik 5px */
+    box-shadow: var(--shadow);                /* Menampilkan bayangan melayang */
+}
+
+/* Wadah foto tempat kuliner */
+.place-image-wrap {
+    position: relative;
+    height: 195px;
+    background: var(--surface-soft);
+    overflow: hidden;
+}
+
+/* Foto hidangan/tempat di dalam kartu */
+.place-image-wrap img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform .35s;
+}
+.place-card:hover .place-image-wrap img { transform: scale(1.05); }
+
+/* Gaya dasar lencana (badge) yang menempel pada foto tempat */
+.place-badge {
+    position: absolute;
+    border-radius: 20px;
+    padding: 6px 11px;
+    font-size: 10px;
+    font-weight: 700;
+    z-index: 2;
+}
+
+/* Lencana kategori kuliner di sudut kiri atas foto */
+.category-badge {
+    top: 12px;
+    left: 12px;
+    background: var(--surface);
+    color: var(--text);
+    box-shadow: 0 4px 10px rgba(0,0,0,.08);
+}
+
+/* Lencana rating bintang di sudut kanan atas foto */
+.rating-badge {
+    top: 12px;
+    right: 12px;
+    background: #fff;
+    color: #b94f16;
+    font-weight: 800;
+    box-shadow: 0 4px 10px rgba(0,0,0,.08);
+}
+
+/* Lencana penanda tempat kuliner buatan sendiri */
+.custom-badge {
+    bottom: 12px;
+    left: 12px;
+    background: #2e7d32;
+    color: #fff;
+}
+
+/* Wadah konten teks dan detail tempat */
+.place-info {
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    flex: 1;                                  /* Mengisi ruang tersisa agar tinggi kartu seragam */
+}
+
+/* Label tag menu hidangan terkait */
+.place-dish-tag {
+    color: var(--muted);
+    font-size: 11px;
+    margin-bottom: 6px;
+}
+.place-dish-tag strong { color: var(--orange-dark); }
+
+/* Judul nama tempat kuliner */
+.place-name {
+    font-family: "Playfair Display", serif;
+    font-size: 20px;
+    font-weight: 700;
+    line-height: 1.35;
+    margin: 0 0 12px;
+    color: var(--text);
+}
+
+/* Baris item meta informasi (alamat, jam buka, harga) */
+.place-meta-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    font-size: 12px;
+    color: var(--muted);
+    line-height: 1.6;
+    margin-bottom: 7px;
+}
+.place-meta-item .meta-icon {
+    font-size: 14px;
+    line-height: 1.3;
+}
+.place-address strong {
+    color: var(--text);
+}
+
+/* Teks deskripsi rekomendasi tempat kuliner */
+.place-description-text {
+    font-size: 12px;
+    line-height: 1.7;
+    color: var(--muted);
+    margin: 8px 0 14px;
+    flex: 1;
+}
+
+/* Kotak catatan pribadi pengguna */
+.place-notes-box {
+    display: flex;
+    gap: 8px;
+    background: var(--surface-soft);
+    border-left: 3px solid var(--orange);
+    border-radius: 8px;
+    padding: 10px 12px;
+    font-size: 11px;
+    color: var(--text);
+    line-height: 1.6;
+    margin: 8px 0 10px;
+}
+
+/* Keterangan waktu tanggal penyimpanan */
+.place-saved-time {
+    color: var(--muted);
+    font-size: 10px;
+    margin-bottom: 12px;
+}
+
+/* Bagian footer aksi pada kartu tempat */
+.place-card-bottom {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-top: 1px solid var(--border);
+    padding-top: 14px;
+    margin-top: auto;                         /* Mendorong tombol aksi ke paling bawah */
+    gap: 10px;
+}
+
+/* Tombol buka rute peta di Google Maps */
+.btn-maps {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    color: var(--orange-dark);
+    font-size: 12px;
+    font-weight: 700;
+    border: 1px solid var(--border);
+    background: var(--bg);
+    padding: 8px 13px;
+    border-radius: 9px;
+    transition: .2s;
+}
+.btn-maps:hover {
+    background: var(--surface-soft);
+    color: var(--orange-dark);
+    border-color: var(--orange);
+}
+
+/* Tombol hapus tempat dari koleksi tersimpan */
+.btn-delete-place {
+    background: transparent;
+    color: var(--muted);
+    border: 0;
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    padding: 6px 8px;
+    border-radius: 6px;
+    transition: .2s;
+}
+.btn-delete-place:hover {
+    color: #e75d53;
+    background: rgba(231, 93, 83, .1);
+}
+
+/* Tombol simpan tempat dari daftar rekomendasi */
+.btn-save-place {
+    font-size: 12px;
+    padding: 9px 15px;
+}
+
+/* Tombol tempat yang sudah berstatus tersimpan */
+.btn-saved-active {
+    background: #2e7d32 !important;
+    color: #fff !important;
+}
+
+/* Kustomisasi gaya konten kotak dialog modal tambah tempat */
+.custom-modal-content {
+    background: var(--surface);
+    color: var(--text);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    box-shadow: var(--shadow);
+}
+.custom-modal-content .modal-header,
+.custom-modal-content .modal-footer {
+    border-color: var(--border);
+    padding: 18px 24px;
+}
+.custom-modal-content .modal-body {
+    padding: 24px;
+}
+.custom-modal-content .form-label {
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--text);
+    margin-bottom: 5px;
+}
+.custom-modal-content .form-control,
+.custom-modal-content .form-select {
+    background: var(--bg);
+    color: var(--text);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    font-size: 13px;
+    padding: 9px 12px;
+}
+.custom-modal-content .form-control:focus,
+.custom-modal-content .form-select:focus {
+    border-color: var(--orange);
+    box-shadow: 0 0 0 3px rgba(237, 125, 50, .15);
+    background: var(--bg);
+    color: var(--text);
+}
+
+/* ------------------------------------------------------------------------------
+   13. MEDIA QUERIES (DESAIN RESPONSIF LINTAS PERANGKAT)
+   ------------------------------------------------------------------------------ */
+
+/* Penyesuaian untuk layar Tablet / Layar Menengah (Maksimum 991px) */
+@media (max-width: 991px) {
+    .hero-grid { gap: 35px; }
+    .hero-image-wrap { height: 330px; }
+    .category-grid { grid-template-columns: repeat(3, 1fr); }         /* 3 kolom pada tablet */
+    .recipe-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } /* 2 kolom pada tablet */
+    .places-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } /* 2 kolom tempat pada tablet */
+    .detail-columns { gap: 25px; }
+}
+
+/* Penyesuaian untuk layar Smartphone / Perangkat Seluler (Maksimum 767px) */
+@media (max-width: 767px) {
+    .hero-section { padding: 48px 0 55px; }
+    /* Mengubah grid multi-kolom menjadi 1 kolom vertikal penuh */
+    .hero-grid, .detail-heading-grid, .detail-columns, .about-grid {
+        grid-template-columns: 1fr;
+    }
+    .hero-grid { gap: 35px; }
+    .hero-visual { margin: 0 10px; }
+    .hero-image-wrap { height: 320px; }
+    .floating-top { left: -10px; }
+    .floating-bottom { right: -5px; }
+    .section-block { padding: 48px 0; }
+    .section-heading { align-items: start; flex-direction: column; gap: 12px; }
+    .category-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } /* 2 kolom pada ponsel */
+    .recipe-grid { grid-template-columns: 1fr; gap: 20px; }            /* 1 kolom pada ponsel */
+    .places-grid { grid-template-columns: 1fr; gap: 20px; }            /* 1 kolom tempat pada ponsel */
+    .places-filter-bar { flex-direction: column; align-items: stretch; }
+    .filter-select-wrap { flex: auto; }
+    .recipe-image { height: 245px; }
+    .cta-inner { flex-direction: column; align-items: start; }
+    .detail-main-image { height: 300px; }
+    .about-grid { gap: 30px; }
+    .about-illustration { min-height: 220px; }
+    .page-header { padding: 50px 0 35px; }
+}
+
+/* Penyesuaian khusus untuk layar Ponsel Berukuran Sangat Kecil (Maksimum 420px) */
+@media (max-width: 420px) {
+    .hero-copy h1 { font-size: 47px; }
+    .search-box { gap: 6px; }
+    .search-box .btn-orange { padding: 12px; }
+    .search-box input { font-size: 12px; }
+    .recipe-image { height: 220px; }
+}

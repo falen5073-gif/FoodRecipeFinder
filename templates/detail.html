@@ -1,0 +1,139 @@
+<!-- ============================================================================== -->
+<!-- TEMPLATE HALAMAN DETAIL RESEP (templates/detail.html)                          -->
+<!-- ============================================================================== -->
+<!-- Berkas ini menyajikan informasi lengkap tentang resep tertentu, mencakup judul,-->
+<!-- foto hidangan, kategori, asal negara, checklist bahan-bahan, langkah instruksi,-->
+<!-- serta tombol simpan favorit dan tautan video tutorial.                         -->
+<!-- ============================================================================== -->
+
+<!-- Mewarisi kerangka dasar dari base.html -->
+{% extends "base.html" %}
+
+<!-- Mengatur judul tab peramban secara dinamis sesuai nama masakan yang sedang dibuka -->
+{% block title %}{{ meal.strMeal }} | Foodie{% endblock %}
+
+<!-- Memulai blok konten utama untuk halaman detail resep -->
+{% block content %}
+
+<!-- ========================================================================== -->
+<!-- 1. HEADER DETAIL RESEP: Informasi ringkasan, gambar utama, & aksi favorit  -->
+<!-- ========================================================================== -->
+<section class="detail-header">
+    <div class="container">
+        <!-- Tautan tombol navigasi untuk kembali ke halaman beranda -->
+        <a href="{{ url_for('index') }}" class="back-link">← Kembali ke beranda</a>
+        
+        <!-- Grid dua kolom: Kolom teks informasi dan kolom foto sajian -->
+        <div class="detail-heading-grid">
+            <div>
+                <!-- Label penanda atas (eyebrow) -->
+                <span class="eyebrow">RESEP PILIHANMU</span>
+                
+                <!-- Nama judul hidangan masakan -->
+                <h1>{{ meal.strMeal }}</h1>
+                
+                <!-- Deskripsi pengantar pembuatan resep -->
+                <p class="detail-description">
+                    Temukan bahan dan langkah untuk menyiapkan hidangan ini di rumah.
+                </p>
+                
+                <!-- Tag informasi kategori, negara/wilayah kuliner, dan frekuensi buka menu -->
+                <div class="detail-tags">
+                    {# Menampilkan lencana kategori masakan jika tersedia #}
+                    {% if meal.strCategory %}<span>🍽 {{ meal.strCategory }}</span>{% endif %}
+                    {# Menampilkan lencana wilayah/daerah asal masakan jika tersedia #}
+                    {% if meal.strArea %}<span>🌍 {{ meal.strArea }}</span>{% endif %}
+                    <!-- Menampilkan statistik seberapa sering menu ini telah dibuka oleh pengguna -->
+                    <span class="view-tag">🔥 Dibuka {{ view_count }} kali</span>
+                </div>
+                
+                <!-- Form tombol toggle Simpan Menu (Fitur Bookmark Menu yang Disimpan) -->
+                <form action="{{ url_for('toggle_save_menu', meal_id=meal.idMeal) }}" method="POST">
+                    <button type="submit" class="btn-orange {{ 'btn-saved-active' if meal.idMeal|string in saved_menu_ids else '' }}">
+                        <!-- Mengubah label tombol secara dinamis: apakah menu sudah disimpan atau belum -->
+                        {{ '✓ Menu Tersimpan' if meal.idMeal|string in saved_menu_ids else '🔖 Simpan Menu Ini' }}
+                    </button>
+                </form>
+            </div>
+            
+            <!-- Kolom kanan: Wadah penampil foto hidangan masakan berukuran besar -->
+            <div class="detail-main-image">
+                <img src="{{ meal.strMealThumb }}" alt="{{ meal.strMeal }}">
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ========================================================================== -->
+<!-- 2. KONTEN DETAIL RESEP: Panel Daftar Bahan & Panel Langkah Memasak          -->
+<!-- ========================================================================== -->
+<section class="section-block detail-content">
+    <div class="container detail-columns">
+        
+        <!-- ------------------------------------------------------------------ -->
+        <!-- Kolom Kiri: Panel Bahan-Bahan Masakan (Ingredients Panel)           -->
+        <!-- ------------------------------------------------------------------ -->
+        <aside class="ingredients-panel">
+            <span class="eyebrow">SIAPKAN DULU</span>
+            <h2>Ingredients</h2>
+            <p class="panel-subtitle">Centang bahan yang sudah tersedia.</p>
+            
+            <!-- Daftar bahan-bahan yang dapat dicentang secara interaktif oleh pengguna -->
+            <div class="ingredient-list">
+                {# Melakukan looping pada setiap objek bahan di list meal.ingredients #}
+                {% for ingredient in meal.ingredients %}
+                <label class="ingredient-item">
+                    <!-- Kotak centang (checkbox) untuk menandai bahan yang sudah disiapkan di dapur -->
+                    <input type="checkbox">
+                    <!-- Nama bahan makanan -->
+                    <span class="ingredient-text">{{ ingredient.name }}</span>
+                    <!-- Takaran atau porsi bahan yang dibutuhkan -->
+                    <span class="ingredient-measure">{{ ingredient.measure }}</span>
+                </label>
+                {# Tampilan fallback jika daftar bahan tidak ada atau kosong #}
+                {% else %}
+                <p>Bahan tidak tersedia.</p>
+                {% endfor %}
+            </div>
+        </aside>
+
+        <!-- ------------------------------------------------------------------ -->
+        <!-- Kolom Kanan: Panel Langkah Instruksi Memasak (Cooking Steps)       -->
+        <!-- ------------------------------------------------------------------ -->
+        <div class="instructions-panel">
+            <span class="eyebrow">SAATNYA MEMASAK</span>
+            <h2>Let's get cooking.</h2>
+            
+            <!-- Daftar urutan langkah-langkah pembuatan hidangan -->
+            <div class="instructions-list">
+                {# Melakukan looping pada setiap tahapan instruksi di instructions_list #}
+                {% for step in meal.instructions_list %}
+                <div class="instruction-step">
+                    <!-- Penomoran langkah memasak otomatis dengan format 2 digit (01, 02, ...) -->
+                    <span class="step-number">{{ "%02d"|format(loop.index) }}</span>
+                    <!-- Teks penjelasan instruksi langkah memasak -->
+                    <p>{{ step }}</p>
+                </div>
+                {# Tampilan fallback jika instruksi memasak tidak tersedia #}
+                {% else %}
+                <p>Instruksi belum tersedia untuk resep ini.</p>
+                {% endfor %}
+            </div>
+
+            <!-- Tautan tombol eksternal untuk menonton video tutorial di YouTube jika tersedia -->
+            {% if meal.strYoutube %}
+            <a href="{{ meal.strYoutube }}" target="_blank" rel="noopener noreferrer" class="btn-orange video-button">
+                ▶ Tonton tutorial memasak
+            </a>
+            {% endif %}
+
+            <!-- Tautan rujukan ke sumber artikel resep asli jika tersedia -->
+            {% if meal.strSource %}
+            <p class="source-link">Sumber resep: <a href="{{ meal.strSource }}" target="_blank" rel="noopener noreferrer">Lihat sumber asli ↗</a></p>
+            {% endif %}
+        </div>
+    </div>
+</section>
+
+<!-- Menutup blok konten detail -->
+{% endblock %}

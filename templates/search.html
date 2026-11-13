@@ -1,0 +1,103 @@
+<!-- ============================================================================== -->
+<!-- TEMPLATE HALAMAN HASIL PENCARIAN & KATEGORI (templates/search.html)            -->
+<!-- ============================================================================== -->
+<!-- Berkas ini menampilkan hasil pencarian resep berdasarkan kata kunci (query 'q') -->
+<!-- atau filter kategori spesifik ('category') yang dikirimkan oleh pengguna.       -->
+<!-- ============================================================================== -->
+
+<!-- Mewarisi kerangka layout dasar dari base.html -->
+{% extends "base.html" %}
+
+<!-- Mengatur judul tab peramban secara dinamis berdasarkan variabel heading -->
+{% block title %}{{ heading }} | Foodie{% endblock %}
+
+<!-- Memulai blok konten utama untuk halaman pencarian -->
+{% block content %}
+
+<!-- ========================================================================== -->
+<!-- 1. PAGE HEADER: Judul pencarian dan formulir pencarian ulang                -->
+<!-- ========================================================================== -->
+<section class="page-header">
+    <div class="container">
+        <!-- Label penanda atas (eyebrow) -->
+        <span class="eyebrow">TEMUKAN SESUATU YANG LEZAT</span>
+        
+        <!-- Judul dinamis: Menampilkan kata kunci atau nama kategori yang sedang dicari -->
+        <h1>{{ heading }}</h1>
+        <p>Inspirasi masakan baru dimulai dari sini.</p>
+
+        <!-- Formulir pencarian ulang yang mempertahankan kata kunci yang sedang dicari pada input value -->
+        <form action="{{ url_for('search') }}" method="GET" class="search-box search-box-page">
+            <span class="search-icon">⌕</span>
+            <input type="search" name="q" value="{{ query }}" placeholder="Contoh: pasta, chicken, salmon...">
+            <button type="submit" class="btn-orange">Cari</button>
+        </form>
+    </div>
+</section>
+
+<!-- ========================================================================== -->
+<!-- 2. HASIL PENCARIAN RESEP: Menampilkan grid resep atau status jika tak ada  -->
+<!-- ========================================================================== -->
+<section class="section-block">
+    <div class="container">
+        {# Memeriksa apakah terdapat resep yang sesuai dengan kata kunci pencarian #}
+        {% if meals %}
+        <!-- Keterangan jumlah total resep yang ditemukan -->
+        <p class="results-label">Ditemukan <strong>{{ meals|length }}</strong> resep</p>
+        
+        <!-- Grid penampung kartu hasil resep -->
+        <div class="recipe-grid">
+            {# Melakukan perulangan untuk setiap resep yang cocok #}
+            {% for meal in meals %}
+            <article class="recipe-card">
+                <!-- Tautan thumbnail foto resep menuju halaman detail -->
+                <a class="recipe-image" href="{{ url_for('recipe_detail', meal_id=meal.idMeal) }}">
+                    <img src="{{ meal.strMealThumb }}" alt="{{ meal.strMeal }}" loading="lazy">
+                    <!-- Lencana kategori resep -->
+                    <span class="image-badge">{{ meal.strCategory or category or 'Recipe idea' }}</span>
+                </a>
+                
+                <div class="recipe-info">
+                    <!-- Asal wilayah masakan dan lencana frekuensi dibuka jika pernah diakses -->
+                    <div class="recipe-meta">
+                        {{ meal.strArea or 'International' }} cuisine
+                        {% if meal.idMeal|string in favorite_view_counts %}
+                        <span class="view-count-badge">🔥 Dibuka {{ favorite_view_counts[meal.idMeal|string] }}x</span>
+                        {% endif %}
+                    </div>
+                    <h3><a href="{{ url_for('recipe_detail', meal_id=meal.idMeal) }}">{{ meal.strMeal }}</a></h3>
+                    
+                    <div class="recipe-card-bottom">
+                        <a class="view-recipe" href="{{ url_for('recipe_detail', meal_id=meal.idMeal) }}">Lihat resep <span>↗</span></a>
+                        
+                        <!-- Form tombol toggle Simpan Menu (Bookmark Resep ke Menu Tersimpan) -->
+                        <form action="{{ url_for('toggle_save_menu', meal_id=meal.idMeal) }}" method="POST">
+                            <button class="bookmark-button {{ 'is-saved' if meal.idMeal|string in saved_menu_ids else '' }}"
+                                    type="submit"
+                                    aria-label="Simpan {{ meal.strMeal }} ke Menu Tersimpan"
+                                    title="{{ 'Hapus dari Menu Tersimpan' if meal.idMeal|string in saved_menu_ids else 'Simpan Menu Ini' }}">
+                                <!-- Menampilkan ikon pita jika tersimpan atau ikon dokumen jika belum -->
+                                {{ '🔖' if meal.idMeal|string in saved_menu_ids else '📑' }}
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </article>
+            {% endfor %}
+        </div>
+        
+        {# Tampilan alternatif (empty state) jika tidak ada resep yang cocok dengan kata kunci pencarian #}
+        {% else %}
+        <div class="empty-state">
+            <span>🥣</span>
+            <h2>Resep belum ditemukan</h2>
+            <p>Coba kata kunci lain dalam bahasa Inggris, misalnya chicken, beef, atau pasta.</p>
+            <!-- Tombol navigasi kembali ke beranda -->
+            <a href="{{ url_for('index') }}" class="btn-orange">Kembali ke beranda</a>
+        </div>
+        {% endif %}
+    </div>
+</section>
+
+<!-- Menutup blok konten pencarian -->
+{% endblock %}

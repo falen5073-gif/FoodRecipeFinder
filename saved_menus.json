@@ -1,0 +1,20 @@
+[
+  {
+    "idMeal": "ID001",
+    "strMeal": "Nasi Goreng Spesial",
+    "strMealThumb": "https://images.pexels.com/photos/37171028/pexels-photo-37171028.jpeg",
+    "strCategory": "Makanan Utama",
+    "strArea": "Indonesia",
+    "saved_at": "10 Nov 2026, 12:30 WIB",
+    "notes": "Menu sarapan praktis dan lezat untuk keluarga di akhir pekan."
+  },
+  {
+    "idMeal": "ID003",
+    "strMeal": "Rendang Daging",
+    "strMealThumb": "https://tse4.mm.bing.net/th/id/OIP.4pY3tA5po23Y0hOAA_PsDgHaHW?r=0&pid=Api&h=220&P=0",
+    "strCategory": "Makanan Utama",
+    "strArea": "Sumatera Barat",
+    "saved_at": "10 Nov 2026, 12:35 WIB",
+    "notes": "Simpan untuk resep hidangan hari raya."
+  }
+]
